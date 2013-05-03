@@ -1,4 +1,10 @@
 *.class
+cytargetlinker/target*
+cytargetlinker/dependency-reduced-pom.xml
+cytargetlinker/lib*
+cytargetlinker/bin*
+.metadata*
+cytargetlinker/.*
 
 # Package Files #
 *.war
