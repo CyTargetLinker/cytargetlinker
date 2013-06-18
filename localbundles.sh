@@ -1,3 +1,2 @@
-mvn install:install-file -Dfile=bundles/org.bridgedb.jar -DgroupId=org.bridgedb -DartifactId=bridgedb -Dversion=1.1.0 -Dpackaging=jar
-mvn install:install-file -Dfile=bundles/org.bridgedb.bio.jar -DgroupId=org.bridgedb -DartifactId=bridgedb-bio -Dversion=1.1.0 -Dpackaging=jar
-mvn install:install-file -Dfile=bundles/derby.jar -DgroupId=derby -DartifactId=derby -Dversion=10.4 -Dpackaging=jar
+mvn install:install-file -Dfile=bundles/collections-generic-4.01.jar -DgroupId=org.apache -DartifactId=commons.collections -Dversion=4.01 -Dpackaging=jar
+mvn install:install-file -Dfile=bundles/forms-1.2.0.jar -DgroupId=com.jgoodies -DartifactId=forms -Dversion=1.2.0 -Dpackaging=jar

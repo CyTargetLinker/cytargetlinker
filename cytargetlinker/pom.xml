@@ -93,9 +93,8 @@
         	    		<configuration>
         	    			<artifactSet>
         	    				<includes>
-        	    					<include>org.bridgedb:bridgedb</include>
-        	    					<include>org.bridgedb:bridgedb-bio</include>
-        	    					<include>derby:derby</include>
+        	    					<include>org.apache:commons.collections</include>
+        	    					<include>com.jgoodies:forms</include>
         	    				</includes>
         	    			</artifactSet>
             			</configuration>
@@ -166,26 +165,18 @@
 		<!-- local dependencies -->
  
  		<dependency> 
-      		<groupId>org.bridgedb</groupId> 
-      		<artifactId>bridgedb</artifactId> 
-      		<version>1.1.0</version> 
+      		<groupId>org.apache</groupId> 
+      		<artifactId>commons.collections</artifactId> 
+      		<version>4.01</version> 
       		<optional>true</optional>
     	</dependency> 
 
 		<dependency> 
-      		<groupId>org.bridgedb</groupId> 
-      		<artifactId>bridgedb-bio</artifactId> 
-      		<version>1.1.0</version> 
+      		<groupId>com.jgoodies</groupId> 
+      		<artifactId>forms</artifactId> 
+      		<version>1.2.0</version> 
       		<optional>true</optional>
     	</dependency> 
-    	
-    	<dependency> 
-      		<groupId>derby</groupId> 
-      		<artifactId>derby</artifactId> 
-      		<version>10.4</version> 
-      		<optional>true</optional>
-    	</dependency> 
-
 	</dependencies>
 
 </project>
