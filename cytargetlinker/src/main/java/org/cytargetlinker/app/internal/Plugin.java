@@ -31,6 +31,7 @@ public class Plugin {
 	private VisualMappingFunctionFactory vmfFactoryP;
 	private CyLayoutAlgorithmManager cyAlgorithmManager;
 	private CyApplicationManager cyApplicationManager;
+	private CyNetworkViewManager cyNetworkViewManager;
 	
 	
 	public Plugin(CyNetworkFactory cyNetFct, 
@@ -44,7 +45,8 @@ public class Plugin {
 			VisualMappingFunctionFactory vmfFactoryD, 
 			VisualMappingFunctionFactory vmfFactoryP, 
 			CyLayoutAlgorithmManager cyAlgorithmManager, 
-			CyApplicationManager cyApplicationManager) {
+			CyApplicationManager cyApplicationManager,
+			CyNetworkViewManager cyNetworkViewManager) {
 		managers = new HashMap<CyNetwork, ExtensionManager>();
 		this.cyNetFct = cyNetFct;
 		this.cyNetMgr = cyNetMgr;
@@ -58,6 +60,7 @@ public class Plugin {
 		this.vmfFactoryP = vmfFactoryP;
 		this.cyAlgorithmManager = cyAlgorithmManager;
 		this.cyApplicationManager = cyApplicationManager;
+		this.cyNetworkViewManager = cyNetworkViewManager;
 	}
 	
 	private VisualStyleCreator vsCreator;
@@ -133,5 +136,9 @@ public class Plugin {
 
 	public VisualStyleCreator getVsCreator() {
 		return vsCreator;
+	}
+
+	public CyNetworkViewManager getCyNetworkViewManager() {
+		return cyNetworkViewManager;
 	}
 }

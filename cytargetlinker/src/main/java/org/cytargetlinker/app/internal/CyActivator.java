@@ -31,13 +31,13 @@ public class CyActivator extends AbstractCyActivator {
 		VisualMappingFunctionFactory vmfFactoryD = getService(context,VisualMappingFunctionFactory.class, "(mapping.type=discrete)");
 		VisualMappingFunctionFactory vmfFactoryP = getService(context,VisualMappingFunctionFactory.class, "(mapping.type=passthrough)");
 		CyLayoutAlgorithmManager cyAlgorithmManager = getService(context, CyLayoutAlgorithmManager.class);
-		
+		CyNetworkViewManager cyNetworkViewManager = getService(context, CyNetworkViewManager.class);
 		// TODO: try with java 7
 //		CyServiceRegistrar registrar = getService(context,CyServiceRegistrar.class); 
 //		registrar.registerService(new RightClickMenu(), CyNodeViewContextMenuFactory.class, new Properties());
 						
 		Plugin plugin = new Plugin(networkFactory, networkManager, dialogTaskManager, networkViewFactory, cyNetViewMgr, vmmServiceRef, visualStyleFactoryServiceRef,
-				vmfFactoryC, vmfFactoryD, vmfFactoryP, cyAlgorithmManager, cyApplicationManager);
+				vmfFactoryC, vmfFactoryD, vmfFactoryP, cyAlgorithmManager, cyApplicationManager, cyNetworkViewManager);
 		QuickStartAction action = new QuickStartAction("Quick Start", plugin);
 		ExtensionAction extAction = new ExtensionAction("Extend network", plugin);
 		Properties properties = new Properties();

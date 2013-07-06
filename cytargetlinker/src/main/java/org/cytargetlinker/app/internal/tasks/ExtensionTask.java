@@ -2,6 +2,7 @@ package org.cytargetlinker.app.internal.tasks;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -77,12 +78,20 @@ public class ExtensionTask extends AbstractTask  {
 		tm.setStatusMessage("Update network view");
 		tm.setProgress(0.9);
 		
-		plugin.getCyNetMgr().addNetwork(network);
-		CyNetworkView view = plugin.getNetworkViewFactory().createNetworkView(network);
-		plugin.getCyNetViewMgr().addNetworkView(view);
-		
 		VisualStyle vs = plugin.getVisualStypeCreator().getVisualStyle(network);
 		plugin.getVmmServiceRef().addVisualStyle(vs);
+		
+		plugin.getCyNetMgr().addNetwork(network);
+//		CyNetworkView view = plugin.getNetworkViewFactory().createNetworkView(network);
+		Collection<CyNetworkView> views = plugin.getCyNetworkViewManager().getNetworkViews(network);
+		CyNetworkView view;
+		if(!views.isEmpty()) {
+			view = views.iterator().next();
+		} else {
+			view = plugin.getNetworkViewFactory().createNetworkView(network);
+			plugin.getCyNetViewMgr().addNetworkView(view);
+		}
+	
 		vs.apply(view);
 		
 		tm.setStatusMessage("Applying layout");
