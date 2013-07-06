@@ -2,6 +2,7 @@ package org.cytargetlinker.app.internal;
 
 import java.util.Properties;
 
+import org.cytoscape.application.CyApplicationManager;
 import org.cytoscape.model.CyNetworkFactory;
 import org.cytoscape.model.CyNetworkManager;
 import org.cytoscape.service.util.AbstractCyActivator;
@@ -18,7 +19,7 @@ public class CyActivator extends AbstractCyActivator {
 
 	@Override
 	public void start(BundleContext context) throws Exception {
-
+		CyApplicationManager cyApplicationManager = getService(context, CyApplicationManager.class);
 		CyNetworkViewFactory networkViewFactory = getService(context, CyNetworkViewFactory.class);
 		CyNetworkFactory networkFactory = getService(context, CyNetworkFactory.class);
 		CyNetworkManager networkManager = getService(context, CyNetworkManager.class);
@@ -36,12 +37,13 @@ public class CyActivator extends AbstractCyActivator {
 //		registrar.registerService(new RightClickMenu(), CyNodeViewContextMenuFactory.class, new Properties());
 						
 		Plugin plugin = new Plugin(networkFactory, networkManager, dialogTaskManager, networkViewFactory, cyNetViewMgr, vmmServiceRef, visualStyleFactoryServiceRef,
-				vmfFactoryC, vmfFactoryD, vmfFactoryP, cyAlgorithmManager);
+				vmfFactoryC, vmfFactoryD, vmfFactoryP, cyAlgorithmManager, cyApplicationManager);
 		QuickStartAction action = new QuickStartAction("Quick Start", plugin);
-
+		ExtensionAction extAction = new ExtensionAction("Extend network", plugin);
 		Properties properties = new Properties();
 
 		registerAllServices(context, action, properties);
+		registerAllServices(context, extAction, properties);
 	}
 
 }

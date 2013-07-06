@@ -22,39 +22,41 @@ import org.cytoscape.view.vizmap.VisualStyle;
 import org.cytoscape.work.AbstractTask;
 import org.cytoscape.work.TaskMonitor;
 
-public class QuickStartTask extends AbstractTask {
-	
+public class ExtensionTask extends AbstractTask  {
+
 	private Plugin plugin;
+	private CyNetwork network;
+	private String idAttribute;
+	private Direction direction;
+	private List<CyNode> nodes;
+	private File directory;
 	
-	public QuickStartTask (Plugin plugin) {
+	public ExtensionTask(Plugin plugin, CyNetwork network, String idAttribute, Direction direction, List<CyNode> nodes, File directory) {
 		this.plugin = plugin;
+		this.network = network;
+		this.idAttribute = idAttribute;
+		this.direction = direction;
+		this.nodes = nodes;
+		this.directory = directory;
 	}
 	
 	@Override
 	public void run(TaskMonitor tm) throws Exception {
-		tm.setTitle("CyTargetLinker Quick Start");
-		tm.setStatusMessage("Creating intial network");
+		tm.setTitle("CyTargetLinker Extension");
+		tm.setStatusMessage("Extract regulatory interactions from RINS (this might take a while ...)");
 		tm.setProgress(0.1);
-		CyNetwork net = plugin.getCyNetFct().createNetwork();
-		net.getRow(net).set(CyNetwork.NAME, "CyTargetLinker Quick Start");
 		
-		String id = "1879";	
-		String id2 = "55699";
+		List<String> ids = new ArrayList<String>();
+		for(CyNode node : nodes) {
+			String id = network.getRow(node).get(idAttribute, String.class);
+			if(id != null && !ids.contains(id)) {
+				ids.add(id);
+			}
+		}
 		
-		CyNode node1 = net.addNode();
-		net.getRow(node1).set(CyNetwork.NAME, id);
-		net.getRow(node1).getTable().createColumn("ctl.id", String.class, false);
-		net.getRow(node1).set("ctl.id", id);
-		
-		CyNode node2 = net.addNode();
-		net.getRow(node2).set(CyNetwork.NAME, id2);
-		net.getRow(node2).set("ctl.id", id2);
-		
-		File file = new File("/home/mku/networks/hsa-rins");
-			
 		List<DataSource> datasources = new ArrayList<DataSource>();
 		int count = 1;
-		for(File f : file.listFiles()) {
+		for(File f : directory.listFiles()) {
 			if(f.getName().endsWith(".xgmml")) {
 				DataSource ds = new DataSource(DatasourceType.XGMML_FILE, f.getAbsolutePath());
 				ds.setColor(new ColorSet().getColor(count));
@@ -62,19 +64,12 @@ public class QuickStartTask extends AbstractTask {
 				count++;
 			}
 		}
-
-		System.out.println("Start");
-		ExtensionManager mgr = plugin.getExtensionManager(net);
-		tm.setStatusMessage("Extract regulatory interactions from RINS (this might take a while ...)");
-		tm.setProgress(0.2);
-		List<String> ids = new ArrayList<String>();
-		ids.add(id);
-		ids.add(id2);
-		ExtensionStep step = mgr.extendNodes(ids, datasources, Direction.SOURCE, "ctl.id");
 		
+		System.out.println("Start");
+		ExtensionManager mgr = plugin.getExtensionManager(network);
+		ExtensionStep step = mgr.extendNodes(ids, datasources, direction, idAttribute);
 		tm.setStatusMessage("Visualizing result network");
 		tm.setProgress(0.7);
-		
 		step.execute();
 		
 		System.out.println("Done");
@@ -82,11 +77,11 @@ public class QuickStartTask extends AbstractTask {
 		tm.setStatusMessage("Update network view");
 		tm.setProgress(0.9);
 		
-		plugin.getCyNetMgr().addNetwork(net);
-		CyNetworkView view = plugin.getNetworkViewFactory().createNetworkView(net);
+		plugin.getCyNetMgr().addNetwork(network);
+		CyNetworkView view = plugin.getNetworkViewFactory().createNetworkView(network);
 		plugin.getCyNetViewMgr().addNetworkView(view);
 		
-		VisualStyle vs = plugin.getVisualStypeCreator().getVisualStyle(net);
+		VisualStyle vs = plugin.getVisualStypeCreator().getVisualStyle(network);
 		plugin.getVmmServiceRef().addVisualStyle(vs);
 		vs.apply(view);
 		

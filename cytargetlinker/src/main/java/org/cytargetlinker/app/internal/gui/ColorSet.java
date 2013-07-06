@@ -16,7 +16,6 @@ public class ColorSet {
 		colors.add(new Color(77,175,74));
 		colors.add(new Color(152,78,163));
 		colors.add(new Color(255,127,0));
-		colors.add(new Color(255,255,51));
 		colors.add(new Color(166,86,40));
 		colors.add(new Color(247,129,191));
 		

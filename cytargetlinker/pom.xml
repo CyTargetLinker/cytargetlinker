@@ -153,6 +153,12 @@
     		<artifactId>swing-app-api</artifactId>
     	<version>3.0.0</version>
 		</dependency>
+		
+		<dependency>
+    		<groupId>org.cytoscape</groupId>
+    		<artifactId>viewmodel-api</artifactId>
+    	<version>3.0.0</version>
+		</dependency>
 
 		<!-- Logging -->
 		<dependency>

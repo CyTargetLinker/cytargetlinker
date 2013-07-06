@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.cytargetlinker.app.internal.gui.VisualStyleCreator;
+import org.cytoscape.application.CyApplicationManager;
 import org.cytoscape.model.CyNetwork;
 import org.cytoscape.model.CyNetworkFactory;
 import org.cytoscape.model.CyNetworkManager;
@@ -29,6 +30,7 @@ public class Plugin {
 	private VisualMappingFunctionFactory vmfFactoryD;
 	private VisualMappingFunctionFactory vmfFactoryP;
 	private CyLayoutAlgorithmManager cyAlgorithmManager;
+	private CyApplicationManager cyApplicationManager;
 	
 	
 	public Plugin(CyNetworkFactory cyNetFct, 
@@ -41,7 +43,8 @@ public class Plugin {
 			VisualMappingFunctionFactory vmfFactoryC, 
 			VisualMappingFunctionFactory vmfFactoryD, 
 			VisualMappingFunctionFactory vmfFactoryP, 
-			CyLayoutAlgorithmManager cyAlgorithmManager) {
+			CyLayoutAlgorithmManager cyAlgorithmManager, 
+			CyApplicationManager cyApplicationManager) {
 		managers = new HashMap<CyNetwork, ExtensionManager>();
 		this.cyNetFct = cyNetFct;
 		this.cyNetMgr = cyNetMgr;
@@ -54,6 +57,7 @@ public class Plugin {
 		this.vmfFactoryD = vmfFactoryD;
 		this.vmfFactoryP = vmfFactoryP;
 		this.cyAlgorithmManager = cyAlgorithmManager;
+		this.cyApplicationManager = cyApplicationManager;
 	}
 	
 	private VisualStyleCreator vsCreator;
@@ -121,5 +125,13 @@ public class Plugin {
 
 	public CyLayoutAlgorithmManager getCyAlgorithmManager() {
 		return cyAlgorithmManager;
+	}
+
+	public CyApplicationManager getCyApplicationManager() {
+		return cyApplicationManager;
+	}
+
+	public VisualStyleCreator getVsCreator() {
+		return vsCreator;
 	}
 }
