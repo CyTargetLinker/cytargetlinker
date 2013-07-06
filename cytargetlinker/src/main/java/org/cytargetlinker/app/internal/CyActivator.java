@@ -2,12 +2,16 @@ package org.cytargetlinker.app.internal;
 
 import java.util.Properties;
 
-import org.cytoscape.application.CyApplicationManager;
-import org.cytoscape.io.util.StreamUtil;
 import org.cytoscape.model.CyNetworkFactory;
+import org.cytoscape.model.CyNetworkManager;
 import org.cytoscape.service.util.AbstractCyActivator;
-import org.cytoscape.service.util.CyServiceRegistrar;
+import org.cytoscape.view.layout.CyLayoutAlgorithmManager;
 import org.cytoscape.view.model.CyNetworkViewFactory;
+import org.cytoscape.view.model.CyNetworkViewManager;
+import org.cytoscape.view.vizmap.VisualMappingFunctionFactory;
+import org.cytoscape.view.vizmap.VisualMappingManager;
+import org.cytoscape.view.vizmap.VisualStyleFactory;
+import org.cytoscape.work.swing.DialogTaskManager;
 import org.osgi.framework.BundleContext;
 
 public class CyActivator extends AbstractCyActivator {
@@ -15,13 +19,25 @@ public class CyActivator extends AbstractCyActivator {
 	@Override
 	public void start(BundleContext context) throws Exception {
 
-		CyApplicationManager cyApplicationManager = getService(context, CyApplicationManager.class);
 		CyNetworkViewFactory networkViewFactory = getService(context, CyNetworkViewFactory.class);
-		StreamUtil streamUtil = getService(context, StreamUtil.class);
 		CyNetworkFactory networkFactory = getService(context, CyNetworkFactory.class);
-		CyServiceRegistrar serviceRegistrar = getService(context, CyServiceRegistrar.class);
-
-		MenuAction action = new MenuAction(cyApplicationManager, "CyTargetLinker App");
+		CyNetworkManager networkManager = getService(context, CyNetworkManager.class);
+		DialogTaskManager dialogTaskManager = getService(context, DialogTaskManager.class);
+		CyNetworkViewManager cyNetViewMgr = getService(context, CyNetworkViewManager.class);
+		VisualMappingManager vmmServiceRef = getService(context,VisualMappingManager.class);
+		VisualStyleFactory visualStyleFactoryServiceRef = getService(context,VisualStyleFactory.class);
+		VisualMappingFunctionFactory vmfFactoryC = getService(context,VisualMappingFunctionFactory.class, "(mapping.type=continuous)");
+		VisualMappingFunctionFactory vmfFactoryD = getService(context,VisualMappingFunctionFactory.class, "(mapping.type=discrete)");
+		VisualMappingFunctionFactory vmfFactoryP = getService(context,VisualMappingFunctionFactory.class, "(mapping.type=passthrough)");
+		CyLayoutAlgorithmManager cyAlgorithmManager = getService(context, CyLayoutAlgorithmManager.class);
+		
+		// TODO: try with java 7
+//		CyServiceRegistrar registrar = getService(context,CyServiceRegistrar.class); 
+//		registrar.registerService(new RightClickMenu(), CyNodeViewContextMenuFactory.class, new Properties());
+						
+		Plugin plugin = new Plugin(networkFactory, networkManager, dialogTaskManager, networkViewFactory, cyNetViewMgr, vmmServiceRef, visualStyleFactoryServiceRef,
+				vmfFactoryC, vmfFactoryD, vmfFactoryP, cyAlgorithmManager);
+		QuickStartAction action = new QuickStartAction("Quick Start", plugin);
 
 		Properties properties = new Properties();
 
