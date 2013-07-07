@@ -84,7 +84,7 @@ public class QuickStartTask extends AbstractTask {
 		
 		plugin.getCyNetMgr().addNetwork(net);
 		CyNetworkView view = plugin.getNetworkViewFactory().createNetworkView(net);
-		plugin.getCyNetViewMgr().addNetworkView(view);
+		plugin.getCyNetworkViewManager().addNetworkView(view);
 		
 		VisualStyle vs = plugin.getVisualStypeCreator().getVisualStyle(net);
 		plugin.getVmmServiceRef().addVisualStyle(vs);

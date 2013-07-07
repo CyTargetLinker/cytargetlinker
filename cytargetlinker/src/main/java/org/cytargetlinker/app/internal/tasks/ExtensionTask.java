@@ -30,15 +30,15 @@ public class ExtensionTask extends AbstractTask  {
 	private String idAttribute;
 	private Direction direction;
 	private List<CyNode> nodes;
-	private File directory;
+	private List<DataSource> datasources;
 	
-	public ExtensionTask(Plugin plugin, CyNetwork network, String idAttribute, Direction direction, List<CyNode> nodes, File directory) {
+	public ExtensionTask(Plugin plugin, CyNetwork network, String idAttribute, Direction direction, List<CyNode> nodes, List<DataSource> datasources) {
 		this.plugin = plugin;
 		this.network = network;
 		this.idAttribute = idAttribute;
 		this.direction = direction;
 		this.nodes = nodes;
-		this.directory = directory;
+		this.datasources = datasources;
 	}
 	
 	@Override
@@ -52,17 +52,6 @@ public class ExtensionTask extends AbstractTask  {
 			String id = network.getRow(node).get(idAttribute, String.class);
 			if(id != null && !ids.contains(id)) {
 				ids.add(id);
-			}
-		}
-		
-		List<DataSource> datasources = new ArrayList<DataSource>();
-		int count = 1;
-		for(File f : directory.listFiles()) {
-			if(f.getName().endsWith(".xgmml")) {
-				DataSource ds = new DataSource(DatasourceType.XGMML_FILE, f.getAbsolutePath());
-				ds.setColor(new ColorSet().getColor(count));
-				datasources.add(ds);
-				count++;
 			}
 		}
 		
@@ -82,14 +71,14 @@ public class ExtensionTask extends AbstractTask  {
 		plugin.getVmmServiceRef().addVisualStyle(vs);
 		
 		plugin.getCyNetMgr().addNetwork(network);
-//		CyNetworkView view = plugin.getNetworkViewFactory().createNetworkView(network);
+
 		Collection<CyNetworkView> views = plugin.getCyNetworkViewManager().getNetworkViews(network);
 		CyNetworkView view;
 		if(!views.isEmpty()) {
 			view = views.iterator().next();
 		} else {
 			view = plugin.getNetworkViewFactory().createNetworkView(network);
-			plugin.getCyNetViewMgr().addNetworkView(view);
+			plugin.getCyNetworkViewManager().addNetworkView(view);
 		}
 	
 		vs.apply(view);

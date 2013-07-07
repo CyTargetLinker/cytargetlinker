@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.List;
 
 import org.cytargetlinker.app.internal.Plugin;
+import org.cytargetlinker.app.internal.data.DataSource;
 import org.cytargetlinker.app.internal.data.Direction;
 import org.cytoscape.model.CyNetwork;
 import org.cytoscape.model.CyNode;
@@ -17,20 +18,20 @@ public class ExtensionTaskFactory extends AbstractTaskFactory {
 	private String idAttribute;
 	private Direction direction;
 	private List<CyNode> nodes;
-	private File directory;
+	private List<DataSource> datasources;
 	
-	public ExtensionTaskFactory(Plugin plugin, CyNetwork network, String idAttribute, Direction direction, List<CyNode> nodes, File directory) {
+	public ExtensionTaskFactory(Plugin plugin, CyNetwork network, String idAttribute, Direction direction, List<CyNode> nodes, List<DataSource> datasources) {
 		this.plugin = plugin;
 		this.network = network;
 		this.idAttribute = idAttribute;
 		this.direction = direction;
 		this.nodes = nodes;
-		this.directory = directory;
+		this.datasources = datasources;
 	}
 	
 	@Override
 	public TaskIterator createTaskIterator() {
-		return new TaskIterator(new ExtensionTask(plugin, network, idAttribute, direction, nodes, directory));
+		return new TaskIterator(new ExtensionTask(plugin, network, idAttribute, direction, nodes, datasources));
 	}
 
 }

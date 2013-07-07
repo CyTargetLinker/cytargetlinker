@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.cytargetlinker.app.internal.gui.VisualStyleCreator;
 import org.cytoscape.application.CyApplicationManager;
+import org.cytoscape.application.swing.CySwingApplication;
 import org.cytoscape.model.CyNetwork;
 import org.cytoscape.model.CyNetworkFactory;
 import org.cytoscape.model.CyNetworkManager;
@@ -18,27 +19,26 @@ import org.cytoscape.work.swing.DialogTaskManager;
 
 public class Plugin {
 
-	public Map<CyNetwork, ExtensionManager> managers;
-	private CyNetworkFactory cyNetFct;
-	private CyNetworkManager cyNetMgr;
+	public Map<CyNetwork, ExtensionManager> extensionManager;
+	private CyNetworkFactory cyNetworkFactory;
+	private CyNetworkManager cyNetworkManager;
 	private DialogTaskManager dialogTaskManager;
-	private CyNetworkViewFactory networkViewFactory;
-	private CyNetworkViewManager cyNetViewMgr;
-	private VisualMappingManager vmmServiceRef;
-	private VisualStyleFactory visualStyleFactoryServiceRef; 
-	private VisualMappingFunctionFactory vmfFactoryC; 
-	private VisualMappingFunctionFactory vmfFactoryD;
-	private VisualMappingFunctionFactory vmfFactoryP;
-	private CyLayoutAlgorithmManager cyAlgorithmManager;
+	private CyNetworkViewFactory cyNetworkViewFactory;
+	private VisualMappingManager visualMappingManager;
+	private VisualStyleFactory visualStyleFactory; 
+	private VisualMappingFunctionFactory visualMappingFunctionFactoryContinous; 
+	private VisualMappingFunctionFactory visualMappingFunctionFactoryDiscrete;
+	private VisualMappingFunctionFactory visualMappingFunctionFactoryPassthrough;
+	private CyLayoutAlgorithmManager cyLayoutAlgorithmManager;
 	private CyApplicationManager cyApplicationManager;
 	private CyNetworkViewManager cyNetworkViewManager;
+	private CySwingApplication cySwingApplication;
 	
 	
 	public Plugin(CyNetworkFactory cyNetFct, 
 			CyNetworkManager cyNetMgr, 
 			DialogTaskManager dialogTaskManager, 
 			CyNetworkViewFactory networkViewFactory,
-			CyNetworkViewManager cyNetViewMgr, 
 			VisualMappingManager vmmServiceRef, 
 			VisualStyleFactory visualStyleFactoryServiceRef, 
 			VisualMappingFunctionFactory vmfFactoryC, 
@@ -46,31 +46,32 @@ public class Plugin {
 			VisualMappingFunctionFactory vmfFactoryP, 
 			CyLayoutAlgorithmManager cyAlgorithmManager, 
 			CyApplicationManager cyApplicationManager,
-			CyNetworkViewManager cyNetworkViewManager) {
-		managers = new HashMap<CyNetwork, ExtensionManager>();
-		this.cyNetFct = cyNetFct;
-		this.cyNetMgr = cyNetMgr;
+			CyNetworkViewManager cyNetworkViewManager,
+			CySwingApplication cySwingApplication) {
+		extensionManager = new HashMap<CyNetwork, ExtensionManager>();
+		this.cyNetworkFactory = cyNetFct;
+		this.cyNetworkManager = cyNetMgr;
 		this.dialogTaskManager = dialogTaskManager;
-		this.networkViewFactory = networkViewFactory;
-		this.cyNetViewMgr = cyNetViewMgr;
-		this.vmmServiceRef = vmmServiceRef;
-		this.visualStyleFactoryServiceRef = visualStyleFactoryServiceRef;
-		this.vmfFactoryC = vmfFactoryC;
-		this.vmfFactoryD = vmfFactoryD;
-		this.vmfFactoryP = vmfFactoryP;
-		this.cyAlgorithmManager = cyAlgorithmManager;
+		this.cyNetworkViewFactory = networkViewFactory;
+		this.visualMappingManager = vmmServiceRef;
+		this.visualStyleFactory = visualStyleFactoryServiceRef;
+		this.visualMappingFunctionFactoryContinous = vmfFactoryC;
+		this.visualMappingFunctionFactoryDiscrete = vmfFactoryD;
+		this.visualMappingFunctionFactoryPassthrough = vmfFactoryP;
+		this.cyLayoutAlgorithmManager = cyAlgorithmManager;
 		this.cyApplicationManager = cyApplicationManager;
 		this.cyNetworkViewManager = cyNetworkViewManager;
+		this.cySwingApplication = cySwingApplication;
 	}
 	
 	private VisualStyleCreator vsCreator;
 	
 	public ExtensionManager getExtensionManager(CyNetwork network) {
-		if(managers.containsKey(network)) {
-			return managers.get(network);
+		if(extensionManager.containsKey(network)) {
+			return extensionManager.get(network);
 		} else {
 			ExtensionManager mgr = new ExtensionManager(network);
-			managers.put(network, mgr);
+			extensionManager.put(network, mgr);
 			return mgr;
 		}
 	}
@@ -83,15 +84,15 @@ public class Plugin {
 	}
 
 	public Map<CyNetwork, ExtensionManager> getManagers() {
-		return managers;
+		return extensionManager;
 	}
 
 	public CyNetworkFactory getCyNetFct() {
-		return cyNetFct;
+		return cyNetworkFactory;
 	}
 
 	public CyNetworkManager getCyNetMgr() {
-		return cyNetMgr;
+		return cyNetworkManager;
 	}
 
 	public DialogTaskManager getDialogTaskManager() {
@@ -99,35 +100,31 @@ public class Plugin {
 	}
 
 	public CyNetworkViewFactory getNetworkViewFactory() {
-		return networkViewFactory;
-	}
-
-	public CyNetworkViewManager getCyNetViewMgr() {
-		return cyNetViewMgr;
+		return cyNetworkViewFactory;
 	}
 
 	public VisualMappingManager getVmmServiceRef() {
-		return vmmServiceRef;
+		return visualMappingManager;
 	}
 
 	public VisualStyleFactory getVisualStyleFactoryServiceRef() {
-		return visualStyleFactoryServiceRef;
+		return visualStyleFactory;
 	}
 
 	public VisualMappingFunctionFactory getVmfFactoryC() {
-		return vmfFactoryC;
+		return visualMappingFunctionFactoryContinous;
 	}
 
 	public VisualMappingFunctionFactory getVmfFactoryD() {
-		return vmfFactoryD;
+		return visualMappingFunctionFactoryDiscrete;
 	}
 
 	public VisualMappingFunctionFactory getVmfFactoryP() {
-		return vmfFactoryP;
+		return visualMappingFunctionFactoryPassthrough;
 	}
 
 	public CyLayoutAlgorithmManager getCyAlgorithmManager() {
-		return cyAlgorithmManager;
+		return cyLayoutAlgorithmManager;
 	}
 
 	public CyApplicationManager getCyApplicationManager() {
@@ -140,5 +137,49 @@ public class Plugin {
 
 	public CyNetworkViewManager getCyNetworkViewManager() {
 		return cyNetworkViewManager;
+	}
+
+	public Map<CyNetwork, ExtensionManager> getExtensionManager() {
+		return extensionManager;
+	}
+
+	public CyNetworkFactory getCyNetworkFactory() {
+		return cyNetworkFactory;
+	}
+
+	public CyNetworkManager getCyNetworkManager() {
+		return cyNetworkManager;
+	}
+
+	public CyNetworkViewFactory getCyNetworkViewFactory() {
+		return cyNetworkViewFactory;
+	}
+
+	public VisualMappingManager getVisualMappingManager() {
+		return visualMappingManager;
+	}
+
+	public VisualStyleFactory getVisualStyleFactory() {
+		return visualStyleFactory;
+	}
+
+	public VisualMappingFunctionFactory getVisualMappingFunctionFactoryContinous() {
+		return visualMappingFunctionFactoryContinous;
+	}
+
+	public VisualMappingFunctionFactory getVisualMappingFunctionFactoryDiscrete() {
+		return visualMappingFunctionFactoryDiscrete;
+	}
+
+	public VisualMappingFunctionFactory getVisualMappingFunctionFactoryPassthrough() {
+		return visualMappingFunctionFactoryPassthrough;
+	}
+
+	public CyLayoutAlgorithmManager getCyLayoutAlgorithmManager() {
+		return cyLayoutAlgorithmManager;
+	}
+
+	public CySwingApplication getCySwingApplication() {
+		return cySwingApplication;
 	}
 }
