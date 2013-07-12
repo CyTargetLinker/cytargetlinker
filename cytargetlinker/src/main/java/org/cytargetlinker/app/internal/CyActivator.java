@@ -2,10 +2,13 @@ package org.cytargetlinker.app.internal;
 
 import java.util.Properties;
 
+import org.cytargetlinker.app.internal.gui.CyTargetLinkerPanel;
 import org.cytoscape.application.CyApplicationManager;
 import org.cytoscape.application.swing.CySwingApplication;
+import org.cytoscape.application.swing.CytoPanelComponent;
 import org.cytoscape.model.CyNetworkFactory;
 import org.cytoscape.model.CyNetworkManager;
+import org.cytoscape.model.events.NetworkDestroyedListener;
 import org.cytoscape.service.util.AbstractCyActivator;
 import org.cytoscape.view.layout.CyLayoutAlgorithmManager;
 import org.cytoscape.view.model.CyNetworkViewFactory;
@@ -43,8 +46,13 @@ public class CyActivator extends AbstractCyActivator {
 		ExtensionAction extAction = new ExtensionAction("Extend network", plugin);
 		Properties properties = new Properties();
 
+		CyTargetLinkerPanel panel = new CyTargetLinkerPanel(plugin);
+		System.out.println("CREATE PANEL " + panel);
+		
+		registerService(context, plugin, NetworkDestroyedListener.class, new Properties());
 		registerAllServices(context, action, properties);
 		registerAllServices(context, extAction, properties);
+		registerService(context, panel, CytoPanelComponent.class, new Properties());
 	}
 
 }

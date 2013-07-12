@@ -35,7 +35,7 @@ public class QuickStartTask extends AbstractTask {
 		tm.setTitle("CyTargetLinker Quick Start");
 		tm.setStatusMessage("Creating intial network");
 		tm.setProgress(0.1);
-		CyNetwork net = plugin.getCyNetFct().createNetwork();
+		CyNetwork net = plugin.getCyNetworkFactory().createNetwork();
 		net.getRow(net).set(CyNetwork.NAME, "CyTargetLinker Quick Start");
 		
 		String id = "1879";	
@@ -82,12 +82,12 @@ public class QuickStartTask extends AbstractTask {
 		tm.setStatusMessage("Update network view");
 		tm.setProgress(0.9);
 		
-		plugin.getCyNetMgr().addNetwork(net);
+		plugin.getCyNetworkManager().addNetwork(net);
 		CyNetworkView view = plugin.getNetworkViewFactory().createNetworkView(net);
 		plugin.getCyNetworkViewManager().addNetworkView(view);
 		
 		VisualStyle vs = plugin.getVisualStypeCreator().getVisualStyle(net);
-		plugin.getVmmServiceRef().addVisualStyle(vs);
+		plugin.getVisualMappingManager().addVisualStyle(vs);
 		vs.apply(view);
 		
 		tm.setStatusMessage("Applying layout");

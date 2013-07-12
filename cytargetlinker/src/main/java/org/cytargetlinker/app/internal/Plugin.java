@@ -1,14 +1,19 @@
 package org.cytargetlinker.app.internal;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import org.cytargetlinker.app.internal.gui.CyTargetLinkerPanel;
 import org.cytargetlinker.app.internal.gui.VisualStyleCreator;
 import org.cytoscape.application.CyApplicationManager;
 import org.cytoscape.application.swing.CySwingApplication;
 import org.cytoscape.model.CyNetwork;
 import org.cytoscape.model.CyNetworkFactory;
 import org.cytoscape.model.CyNetworkManager;
+import org.cytoscape.model.events.NetworkDestroyedEvent;
+import org.cytoscape.model.events.NetworkDestroyedListener;
 import org.cytoscape.view.layout.CyLayoutAlgorithmManager;
 import org.cytoscape.view.model.CyNetworkViewFactory;
 import org.cytoscape.view.model.CyNetworkViewManager;
@@ -17,7 +22,7 @@ import org.cytoscape.view.vizmap.VisualMappingManager;
 import org.cytoscape.view.vizmap.VisualStyleFactory;
 import org.cytoscape.work.swing.DialogTaskManager;
 
-public class Plugin {
+public class Plugin implements NetworkDestroyedListener {
 
 	public Map<CyNetwork, ExtensionManager> extensionManager;
 	private CyNetworkFactory cyNetworkFactory;
@@ -33,6 +38,8 @@ public class Plugin {
 	private CyApplicationManager cyApplicationManager;
 	private CyNetworkViewManager cyNetworkViewManager;
 	private CySwingApplication cySwingApplication;
+	
+	private CyTargetLinkerPanel panel;
 	
 	
 	public Plugin(CyNetworkFactory cyNetFct, 
@@ -72,6 +79,7 @@ public class Plugin {
 		} else {
 			ExtensionManager mgr = new ExtensionManager(network);
 			extensionManager.put(network, mgr);
+//			panel.update();
 			return mgr;
 		}
 	}
@@ -87,13 +95,6 @@ public class Plugin {
 		return extensionManager;
 	}
 
-	public CyNetworkFactory getCyNetFct() {
-		return cyNetworkFactory;
-	}
-
-	public CyNetworkManager getCyNetMgr() {
-		return cyNetworkManager;
-	}
 
 	public DialogTaskManager getDialogTaskManager() {
 		return dialogTaskManager;
@@ -102,27 +103,7 @@ public class Plugin {
 	public CyNetworkViewFactory getNetworkViewFactory() {
 		return cyNetworkViewFactory;
 	}
-
-	public VisualMappingManager getVmmServiceRef() {
-		return visualMappingManager;
-	}
-
-	public VisualStyleFactory getVisualStyleFactoryServiceRef() {
-		return visualStyleFactory;
-	}
-
-	public VisualMappingFunctionFactory getVmfFactoryC() {
-		return visualMappingFunctionFactoryContinous;
-	}
-
-	public VisualMappingFunctionFactory getVmfFactoryD() {
-		return visualMappingFunctionFactoryDiscrete;
-	}
-
-	public VisualMappingFunctionFactory getVmfFactoryP() {
-		return visualMappingFunctionFactoryPassthrough;
-	}
-
+	
 	public CyLayoutAlgorithmManager getCyAlgorithmManager() {
 		return cyLayoutAlgorithmManager;
 	}
@@ -181,5 +162,28 @@ public class Plugin {
 
 	public CySwingApplication getCySwingApplication() {
 		return cySwingApplication;
+	}
+
+	public CyTargetLinkerPanel getPanel() {
+		return panel;
+	}
+
+	public void setPanel(CyTargetLinkerPanel panel) {
+		this.panel = panel;
+	}
+
+	@Override
+	public void handleEvent(NetworkDestroyedEvent event) {
+		System.out.println(event);
+		List<CyNetwork> toRemove = new ArrayList<CyNetwork>();
+		for(CyNetwork network : extensionManager.keySet()) {
+			if(!cyNetworkManager.networkExists(network.getSUID())) {
+				toRemove.add(network);
+			}
+		}
+		for(CyNetwork network : toRemove) {
+			extensionManager.remove(network);
+		}
+		panel.update();
 	}
 }

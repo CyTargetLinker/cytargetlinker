@@ -1,6 +1,5 @@
 package org.cytargetlinker.app.internal.tasks;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -10,10 +9,8 @@ import java.util.Set;
 import org.cytargetlinker.app.internal.ExtensionManager;
 import org.cytargetlinker.app.internal.Plugin;
 import org.cytargetlinker.app.internal.data.DataSource;
-import org.cytargetlinker.app.internal.data.DatasourceType;
 import org.cytargetlinker.app.internal.data.Direction;
 import org.cytargetlinker.app.internal.data.ExtensionStep;
-import org.cytargetlinker.app.internal.gui.ColorSet;
 import org.cytoscape.model.CyNetwork;
 import org.cytoscape.model.CyNode;
 import org.cytoscape.view.layout.CyLayoutAlgorithm;
@@ -67,11 +64,12 @@ public class ExtensionTask extends AbstractTask  {
 		tm.setStatusMessage("Update network view");
 		tm.setProgress(0.9);
 		
-		VisualStyle vs = plugin.getVisualStypeCreator().getVisualStyle(network);
-		plugin.getVmmServiceRef().addVisualStyle(vs);
 		
-		plugin.getCyNetMgr().addNetwork(network);
-
+		VisualStyle vs = plugin.getVisualStypeCreator().getVisualStyle(network);
+		plugin.getVisualMappingManager().addVisualStyle(vs);
+		
+		plugin.getCyNetworkManager().addNetwork(network);
+		
 		Collection<CyNetworkView> views = plugin.getCyNetworkViewManager().getNetworkViews(network);
 		CyNetworkView view;
 		if(!views.isEmpty()) {
@@ -80,7 +78,7 @@ public class ExtensionTask extends AbstractTask  {
 			view = plugin.getNetworkViewFactory().createNetworkView(network);
 			plugin.getCyNetworkViewManager().addNetworkView(view);
 		}
-	
+		
 		vs.apply(view);
 		
 		tm.setStatusMessage("Applying layout");
@@ -90,7 +88,8 @@ public class ExtensionTask extends AbstractTask  {
 		insertTasksAfterCurrentTask(layout.createTaskIterator(view, layout.createLayoutContext(), nodes, null));
 		
 		view.updateView();
-	
+		plugin.getPanel().update();
+		
 		tm.setProgress(1.0);
 	}
 

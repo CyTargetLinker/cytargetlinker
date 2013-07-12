@@ -23,7 +23,7 @@ public class VisualStyleCreator {
 	
 	public VisualStyleCreator(Plugin plugin) {
 		this.plugin = plugin;
-		vs = plugin.getVisualStyleFactoryServiceRef().createVisualStyle("CyTargetLinker");
+		vs = plugin.getVisualStyleFactory().createVisualStyle("CyTargetLinker");
 
 	}
 	
@@ -45,14 +45,14 @@ public class VisualStyleCreator {
 	}
 	
 	private PassthroughMapping getNodeLabelMapping() {
-		PassthroughMapping mapping = (PassthroughMapping) plugin.getVmfFactoryP().createVisualMappingFunction("name", String.class, BasicVisualLexicon.NODE_LABEL);
+		PassthroughMapping mapping = (PassthroughMapping) plugin.getVisualMappingFunctionFactoryPassthrough().createVisualMappingFunction("name", String.class, BasicVisualLexicon.NODE_LABEL);
 		return mapping;
 	}
 	
 	// TODO: change mapping based on interaction and make sure interaction is not empty in the RINs!
 	private DiscreteMapping<String, Color> getEdgeColor() {
 		Class<String> dataType = String.class;
-		DiscreteMapping<String, Color> edgeColorMapper = (DiscreteMapping) plugin.getVmfFactoryD().createVisualMappingFunction("datasource", dataType, BasicVisualLexicon.EDGE_STROKE_UNSELECTED_PAINT);		
+		DiscreteMapping<String, Color> edgeColorMapper = (DiscreteMapping) plugin.getVisualMappingFunctionFactoryDiscrete().createVisualMappingFunction("datasource", dataType, BasicVisualLexicon.EDGE_STROKE_UNSELECTED_PAINT);		
 		ExtensionManager mgr = plugin.getExtensionManager(network);
 		for(DataSource ds : mgr.getDatasources()) {
 			edgeColorMapper.putMapValue(ds.getName(), ds.getColor());
@@ -64,7 +64,7 @@ public class VisualStyleCreator {
 	// TODO: change mapping based on interaction and make sure interaction is not empty in the RINs!
 	private DiscreteMapping<String, ArrowShape> getArrowShape() {
 		Class<String> dataType = String.class;
-		DiscreteMapping<String, ArrowShape> arrowShapeMapper = (DiscreteMapping) plugin.getVmfFactoryD().createVisualMappingFunction("datasource", dataType, BasicVisualLexicon.EDGE_TARGET_ARROW_SHAPE);
+		DiscreteMapping<String, ArrowShape> arrowShapeMapper = (DiscreteMapping) plugin.getVisualMappingFunctionFactoryDiscrete().createVisualMappingFunction("datasource", dataType, BasicVisualLexicon.EDGE_TARGET_ARROW_SHAPE);
 		
 		ExtensionManager mgr = plugin.getExtensionManager(network);
 		for(DataSource ds : mgr.getDatasources()) {
@@ -85,7 +85,7 @@ public class VisualStyleCreator {
 		String ctrAttr = "biologicalType";
 		Class<String> dataType = String.class; 
 		
-		DiscreteMapping<String, Color> dMapping = (DiscreteMapping) plugin.getVmfFactoryD().createVisualMappingFunction(ctrAttr, dataType, BasicVisualLexicon.NODE_FILL_COLOR);
+		DiscreteMapping<String, Color> dMapping = (DiscreteMapping) plugin.getVisualMappingFunctionFactoryDiscrete().createVisualMappingFunction(ctrAttr, dataType, BasicVisualLexicon.NODE_FILL_COLOR);
 		
 		String tf  = "transcriptionFactor";
 		dMapping.putMapValue(tf, new Color(204, 255, 204));
@@ -105,7 +105,7 @@ public class VisualStyleCreator {
 		String ctrAttr = "ctl.nodeType";
 		Class<String> dataType = String.class; 
 		
-		DiscreteMapping<String, NodeShape> dMapping = (DiscreteMapping) plugin.getVmfFactoryD().createVisualMappingFunction(ctrAttr, dataType, BasicVisualLexicon.NODE_SHAPE);
+		DiscreteMapping<String, NodeShape> dMapping = (DiscreteMapping) plugin.getVisualMappingFunctionFactoryDiscrete().createVisualMappingFunction(ctrAttr, dataType, BasicVisualLexicon.NODE_SHAPE);
 
 		String reg  = NodeType.REGULATOR.toString();
 		dMapping.putMapValue(reg, NodeShapeVisualProperty.ROUND_RECTANGLE);
