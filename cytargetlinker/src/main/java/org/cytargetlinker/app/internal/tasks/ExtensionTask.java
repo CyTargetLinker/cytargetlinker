@@ -8,6 +8,7 @@ import java.util.Set;
 
 import org.cytargetlinker.app.internal.ExtensionManager;
 import org.cytargetlinker.app.internal.Plugin;
+import org.cytargetlinker.app.internal.Utils;
 import org.cytargetlinker.app.internal.data.DataSource;
 import org.cytargetlinker.app.internal.data.Direction;
 import org.cytargetlinker.app.internal.data.ExtensionStep;
@@ -63,11 +64,7 @@ public class ExtensionTask extends AbstractTask  {
 		
 		tm.setStatusMessage("Update network view");
 		tm.setProgress(0.9);
-		
-		
-		VisualStyle vs = plugin.getVisualStypeCreator().getVisualStyle(network);
-		plugin.getVisualMappingManager().addVisualStyle(vs);
-		
+
 		plugin.getCyNetworkManager().addNetwork(network);
 		
 		Collection<CyNetworkView> views = plugin.getCyNetworkViewManager().getNetworkViews(network);
@@ -79,15 +76,17 @@ public class ExtensionTask extends AbstractTask  {
 			plugin.getCyNetworkViewManager().addNetworkView(view);
 		}
 		
-		vs.apply(view);
-		
 		tm.setStatusMessage("Applying layout");
 		tm.setProgress(0.95);
+		
 		Set<View<CyNode>> nodes = new HashSet<View<CyNode>>();
 		CyLayoutAlgorithm layout = plugin.getCyAlgorithmManager().getLayout("force-directed");
 		insertTasksAfterCurrentTask(layout.createTaskIterator(view, layout.createLayoutContext(), nodes, null));
 		
-		view.updateView();
+		tm.setStatusMessage("Applying visual style");
+		tm.setProgress(0.98);
+		
+		Utils.updateVisualStyle(plugin, view, network);
 		plugin.getPanel().update();
 		
 		tm.setProgress(1.0);

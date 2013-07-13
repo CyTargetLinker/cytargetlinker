@@ -6,9 +6,11 @@ import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Collection;
 import java.util.Vector;
 
 import javax.swing.Icon;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -21,9 +23,13 @@ import javax.swing.event.ChangeListener;
 
 import org.cytargetlinker.app.internal.ExtensionManager;
 import org.cytargetlinker.app.internal.Plugin;
+import org.cytargetlinker.app.internal.Utils;
+import org.cytargetlinker.app.internal.data.Result;
 import org.cytoscape.application.swing.CytoPanelComponent;
 import org.cytoscape.application.swing.CytoPanelName;
 import org.cytoscape.model.CyNetwork;
+import org.cytoscape.util.swing.CyColorChooser;
+import org.cytoscape.view.model.CyNetworkView;
 
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
@@ -51,9 +57,9 @@ public class CyTargetLinkerPanel extends JPanel implements CytoPanelComponent {
 		mainPanel.setLayout(new BorderLayout());
 		
 		JPanel top = new JPanel();
-//		FormLayout layoutTop = new FormLayout("5dlu,pref,5dlu,75dlu,5dlu", "5dlu,pref,5dlu");
-//		top.setLayout(layoutTop);
-		top.setLayout(new GridLayout(1, 2));
+		top.setBackground(Color.WHITE);
+		top.setLayout(new GridLayout(3, 2));
+		top.add(new JLabel());top.add(new JLabel());
 		top.add(new JLabel("Select extended network:"));
 		cbNetworks = new JComboBox(getNetworks());
 		contentPanel = new JPanel();
@@ -63,11 +69,12 @@ public class CyTargetLinkerPanel extends JPanel implements CytoPanelComponent {
 			@Override
 			public void actionPerformed(ActionEvent event) {
 				NetworkName name = (NetworkName) cbNetworks.getSelectedItem();
+				System.out.println(name.getName() + "\t" + name.getNetwork());
 				updateContentPanel(name);
 			}
 		});
 		top.add(cbNetworks);
-
+		top.add(new JLabel());top.add(new JLabel());
 		mainPanel.add(top, BorderLayout.NORTH);
 
 		return mainPanel;
@@ -79,8 +86,8 @@ public class CyTargetLinkerPanel extends JPanel implements CytoPanelComponent {
 		contentPanel.setLayout(new BorderLayout());
 		contentPanel.add(getDataColorPanel(mgr), BorderLayout.CENTER);
 		
-		contentPanel.add(new JLabel(name.getName() + "\t" + name.getNetwork().getSUID()));
-		contentPanel.add(new JLabel(name.getNetwork().getEdgeCount() + "\t" + name.getNetwork().getNodeCount()));
+//		contentPanel.add(new JLabel(name.getName() + "\t" + name.getNetwork().getSUID()));
+//		contentPanel.add(new JLabel(name.getNetwork().getEdgeCount() + "\t" + name.getNetwork().getNodeCount()));
 		contentPanel.repaint();
 		contentPanel.revalidate();
 	}
@@ -99,9 +106,10 @@ public class CyTargetLinkerPanel extends JPanel implements CytoPanelComponent {
 		return pane;
 	}
 
-	private Component fillPanel(ExtensionManager mgr) {
+	private Component fillPanel(final ExtensionManager mgr) {
 		CellConstraints cc = new CellConstraints();
 		String rowLayout = "5dlu, pref, 5dlu, pref, 15dlu";
+		System.out.println("rowLayout start");
 		for(int i = 0; i < mgr.getHistory().size(); i++) {
 			rowLayout = rowLayout + ", pref, 10dlu, pref, 10dlu";
 			for(int j = 0; j < mgr.getHistory().get(i).getResults().size(); j++) {
@@ -109,7 +117,7 @@ public class CyTargetLinkerPanel extends JPanel implements CytoPanelComponent {
 			}
 		}
 		rowLayout = rowLayout + ", 15dlu, p, 5dlu";
-		
+		System.out.println("rowLayout end");
 		FormLayout layout = new FormLayout("pref,10dlu, pref, 10dlu, 30dlu, 10dlu, pref", rowLayout);
 		PanelBuilder builder = new PanelBuilder(layout);
 		builder.setDefaultDialogBorder();
@@ -117,6 +125,7 @@ public class CyTargetLinkerPanel extends JPanel implements CytoPanelComponent {
 		
 		SpinnerModel model = new SpinnerNumberModel(1, 1, 100, 1);
 		thresholdSpinner = new JSpinner(model);
+		thresholdSpinner.setValue(1);
 		thresholdSpinner.addChangeListener(new ChangeListener() {
 			
 			@Override
@@ -135,7 +144,7 @@ public class CyTargetLinkerPanel extends JPanel implements CytoPanelComponent {
 		
 		int rowCount = 6;
 		for(int i = 0; i < mgr.getHistory().size(); i++) {
-			builder.addLabel("Step " + mgr.getHistory().get(i).getStepNum(), cc.xy(1, rowCount));
+			builder.addLabel("<html><b>Step " + mgr.getHistory().get(i).getStepNum() + "</b></html>", cc.xy(1, rowCount));
 			rowCount = rowCount+2;
 			
 			//create a column with the name of the database found in the file selected
@@ -145,8 +154,38 @@ public class CyTargetLinkerPanel extends JPanel implements CytoPanelComponent {
 	        builder.addSeparator("", cc.xyw(1,rowCount+1,5));
 	        rowCount = rowCount+2;
 	        
+	        System.out.println("Result size for step " + mgr.getHistory().get(i).getStepNum() + " = " + mgr.getHistory().get(i).getResults().size());
+	        
 	        for(int j = 0; j < mgr.getHistory().get(i).getResults().size(); j++) {
+	        	final Result r = mgr.getHistory().get(i).getResults().get(j);
 	        	builder.addLabel(mgr.getHistory().get(i).getResults().get(j).getRinName(), cc.xy(1, rowCount));
+	        	
+	        	JLabel field = new JLabel(r.getEdges().size() + "");
+                builder.add(field, cc.xy(3, rowCount));
+                
+                final JButton button = new JButton();
+                button.setBackground(r.getDs().getColor());
+                button.addActionListener(new ActionListener() {
+					
+					@Override
+					public void actionPerformed(ActionEvent arg0) {
+						Color c = CyColorChooser.showDialog(plugin.getCySwingApplication().getJFrame(), "Select color for " + r.getRinName(), r.getDs().getColor());
+						r.getDs().setColor(c);
+						button.setBackground(c);
+						Collection<CyNetworkView> views = plugin.getCyNetworkViewManager().getNetworkViews(mgr.getNetwork());
+						CyNetworkView view;
+						if(!views.isEmpty()) {
+							view = views.iterator().next();
+						} else {
+							view = plugin.getNetworkViewFactory().createNetworkView(mgr.getNetwork());
+							plugin.getCyNetworkViewManager().addNetworkView(view);
+						}
+						Utils.updateVisualStyle(plugin, view, mgr.getNetwork());
+					}
+				});
+                
+	        	builder.add(button, cc.xy(5, rowCount));
+	        	
 	        	rowCount = rowCount+2;
 	        }
 		}
@@ -156,7 +195,7 @@ public class CyTargetLinkerPanel extends JPanel implements CytoPanelComponent {
         
         
 		
-		return null;
+		return builder.getPanel();
 	}
 
 	public void update() {
