@@ -6,8 +6,6 @@ import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.util.Collection;
 import java.util.Vector;
 
@@ -27,11 +25,14 @@ import org.cytargetlinker.app.internal.ExtensionManager;
 import org.cytargetlinker.app.internal.Plugin;
 import org.cytargetlinker.app.internal.Utils;
 import org.cytargetlinker.app.internal.data.Result;
+import org.cytargetlinker.app.internal.tasks.ShowHideTaskFactory;
+import org.cytargetlinker.app.internal.tasks.ThresholdTaskFactory;
 import org.cytoscape.application.swing.CytoPanelComponent;
 import org.cytoscape.application.swing.CytoPanelName;
 import org.cytoscape.model.CyNetwork;
 import org.cytoscape.util.swing.CyColorChooser;
 import org.cytoscape.view.model.CyNetworkView;
+import org.cytoscape.work.TaskIterator;
 
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
@@ -134,6 +135,15 @@ public class CyTargetLinkerPanel extends JPanel implements CytoPanelComponent {
 			public void stateChanged(ChangeEvent arg0) {
 				Integer i = (Integer) thresholdSpinner.getValue();
 				System.out.println("apply threshold " + i);
+				mgr.setThreshold(i);
+				
+				ThresholdTaskFactory factory = new ThresholdTaskFactory(mgr, plugin);
+				TaskIterator it = factory.createTaskIterator();
+				plugin.getDialogTaskManager().execute(it);
+				
+//				CyNetworkView view = Utils.getNetworkView(mgr.getNetwork(), plugin);
+//				Utils.applyThreshold(plugin, mgr.getNetwork(),view, mgr.getThreshold());
+//				view.updateView();
 				// TODO apply threshold
 				// update view
 			}
@@ -192,20 +202,26 @@ public class CyTargetLinkerPanel extends JPanel implements CytoPanelComponent {
 	        	String[] show = { "Show", "Hide" };
                 JComboBox box = new JComboBox(show);
                 box.setSelectedIndex(0);
-				box.addItemListener(new ItemListener() {
-
+                box.addActionListener(new ActionListener() {
+					
 					@Override
-					public void itemStateChanged(ItemEvent itemEvent) {
-						JComboBox source = (JComboBox) itemEvent.getSource();
+					public void actionPerformed(ActionEvent event) {
+						JComboBox source = (JComboBox) event.getSource();
+						
 						if (source.getSelectedItem().equals("Show")) {
 							// TODO "show network"
+							ShowHideTaskFactory factory = new ShowHideTaskFactory(plugin, mgr.getNetwork(),true, r);
+	        				TaskIterator it = factory.createTaskIterator();
+	        				plugin.getDialogTaskManager().execute(it);
 							System.out.println("Show:\t" + r.getRinName());
 						} else {
 							// TODO "hide network"
+							ShowHideTaskFactory factory = new ShowHideTaskFactory(plugin, mgr.getNetwork(),false, r);
+							TaskIterator it = factory.createTaskIterator();
+							plugin.getDialogTaskManager().execute(it);
 							System.out.println("Hide:\t" + r.getRinName());
 						}
 					}
-
 				});
                 
                 builder.add(box, cc.xy(7, rowCount));
@@ -213,11 +229,6 @@ public class CyTargetLinkerPanel extends JPanel implements CytoPanelComponent {
 	        	rowCount = rowCount+2;
 	        }
 		}
-		
-        
-//        int i = 0;
-        
-        
 		
 		return builder.getPanel();
 	}

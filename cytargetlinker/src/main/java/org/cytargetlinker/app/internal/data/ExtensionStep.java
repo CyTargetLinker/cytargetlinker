@@ -89,6 +89,7 @@ public class ExtensionStep {
 				
 				// create edge
 				CyEdge cyEdge = network.addEdge(e.getCySource(), e.getCyTarget(), false);
+				e.setCyEdge(cyEdge);
 				for(String str : e.getAttributes().keySet()) {
 					if(network.getRow(cyEdge).getTable().getColumn(str) == null) {
 						network.getRow(cyEdge).getTable().createColumn(str, String.class, false);
