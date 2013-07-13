@@ -6,6 +6,8 @@ import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.Collection;
 import java.util.Vector;
 
@@ -151,6 +153,7 @@ public class CyTargetLinkerPanel extends JPanel implements CytoPanelComponent {
 	        builder.addLabel("RIN", cc.xy(1, rowCount));
 	        builder.addLabel("#", cc.xy(3,rowCount));
 	        builder.addLabel("Color", cc.xy(5, rowCount)); 
+	        builder.addLabel("Show/Hide", cc.xy(7, rowCount));
 	        builder.addSeparator("", cc.xyw(1,rowCount+1,5));
 	        rowCount = rowCount+2;
 	        
@@ -185,6 +188,27 @@ public class CyTargetLinkerPanel extends JPanel implements CytoPanelComponent {
 				});
                 
 	        	builder.add(button, cc.xy(5, rowCount));
+	        	
+	        	String[] show = { "Show", "Hide" };
+                JComboBox box = new JComboBox(show);
+                box.setSelectedIndex(0);
+				box.addItemListener(new ItemListener() {
+
+					@Override
+					public void itemStateChanged(ItemEvent itemEvent) {
+						JComboBox source = (JComboBox) itemEvent.getSource();
+						if (source.getSelectedItem().equals("Show")) {
+							// TODO "show network"
+							System.out.println("Show:\t" + r.getRinName());
+						} else {
+							// TODO "hide network"
+							System.out.println("Hide:\t" + r.getRinName());
+						}
+					}
+
+				});
+                
+                builder.add(box, cc.xy(7, rowCount));
 	        	
 	        	rowCount = rowCount+2;
 	        }
