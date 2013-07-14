@@ -24,8 +24,6 @@ public class Edge {
 		this.id = id;
 		attributes = new HashMap<String, String>();
 	}
-	
-	
 
 	public String getId() {
 		return id;

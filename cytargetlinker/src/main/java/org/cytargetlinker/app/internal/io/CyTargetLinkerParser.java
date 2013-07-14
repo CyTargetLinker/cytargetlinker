@@ -33,7 +33,6 @@ public class CyTargetLinkerParser extends DefaultHandler {
 		this.ids = ids;
 		this.dir = dir;
 		this.ds = ds;
-		System.out.println(ids);
 		nodeList = new ArrayList<Node>();
 		edgeList = new ArrayList<Edge>();
 		nodeMap = new HashMap<String, Node>();

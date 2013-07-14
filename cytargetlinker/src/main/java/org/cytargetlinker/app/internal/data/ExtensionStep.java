@@ -46,7 +46,9 @@ public class ExtensionStep {
 			if(network.getRow(node).getTable().getColumn("ctl.type") == null) {
 				network.getRow(node).getTable().createColumn("ctl.type", String.class, false);
 			}
-			network.getRow(node).set("ctl.type", "intial");
+			if(network.getRow(node).get("ctl.type", String.class) == null) {
+				network.getRow(node).set("ctl.type", "query");
+			}
 			if(network.getRow(node).getTable().getColumn("ctl.nodeType") == null) {
 				network.getRow(node).getTable().createColumn("ctl.nodeType", String.class, false);
 			}
@@ -54,7 +56,9 @@ public class ExtensionStep {
 			if(network.getRow(node).getTable().getColumn("biologicalType") == null) {
 				network.getRow(node).getTable().createColumn("biologicalType", String.class, false);
 			}
-			network.getRow(node).set("biologicalType", "initial");
+			if(network.getRow(node).get("biologicalType", String.class) == null) {
+				network.getRow(node).set("biologicalType", "initial");
+			}
 		}
 			
 		for(Result r : results) {
@@ -97,6 +101,7 @@ public class ExtensionStep {
 					network.getRow(cyEdge).set(str, e.getAttributes().get(str));
 				}
 				network.getRow(cyEdge).set("datasource", e.getDs().getName());
+				r.getDs().getEdges().add(cyEdge);
 			}
 		}
 	}

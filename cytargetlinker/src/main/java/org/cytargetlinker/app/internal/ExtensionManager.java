@@ -33,23 +33,26 @@ public class ExtensionManager {
 	
 	public ExtensionStep extendNodes(List<String> ids, List<DataSource> ds, Direction dir, String idAttribute) {
 		List<Result> results = new ArrayList<Result>();
-		int count = 1;
 		for (DataSource d : ds) {
-			ExtensionHandler handler = decideHandler(d);
+			DataSource current = datasourceExists(d);
+			if(current == null) {
+				current = d;
+				datasources.add(current);
+				current.setColor(new ColorSet().getColor(datasources.size()));
+			}
+			ExtensionHandler handler = decideHandler(current);
 			if(handler == null) {
 				// TODO: warning
 				System.out.println("invalid data source");
 			} else {
+				
+				
 				Result r = handler.getNeighbours(ids, dir);
 				if(r != null) {
-					System.out.println(r.getRinName() + "\t" + r.getEdges().size());
 					results.add(r);
 					for(Edge e : r.getEdges()) {
 						edges.put(e.getCyEdge(), r);
 					}
-					d.setColor(new ColorSet().getColor(count));
-					count++;
-					datasources.add(d);
 				} else {
 					// TODO: warning
 				}
@@ -64,6 +67,23 @@ public class ExtensionManager {
 		return step;
 	}
 	
+	public DataSource getDataSourceByName(String name) {
+		for(DataSource d : datasources) {
+			if(d.getName().equals(name)) {
+				return d;
+			}
+		}
+		return null;
+	}
+	
+	private DataSource datasourceExists(DataSource ds) {
+		for(DataSource d : datasources) {
+			if(d.getSource().equals(ds.getSource())) {
+				return d;
+			}
+		}
+		return null;
+	}
 	
 	private ExtensionHandler decideHandler(DataSource ds) {
 		if(ds.getType().equals(XgmmlFileRINHandler.getDataSourceType())) {

@@ -1,7 +1,8 @@
-package org.cytargetlinker.app.internal;
+package org.cytargetlinker.app.internal.action;
 
 import java.awt.event.ActionEvent;
 
+import org.cytargetlinker.app.internal.Plugin;
 import org.cytargetlinker.app.internal.tasks.QuickStartTaskFactory;
 import org.cytoscape.application.swing.AbstractCyAction;
 import org.cytoscape.work.TaskIterator;

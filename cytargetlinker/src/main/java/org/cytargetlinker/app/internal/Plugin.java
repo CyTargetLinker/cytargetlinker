@@ -14,6 +14,7 @@ import org.cytoscape.model.CyNetworkFactory;
 import org.cytoscape.model.CyNetworkManager;
 import org.cytoscape.model.events.NetworkDestroyedEvent;
 import org.cytoscape.model.events.NetworkDestroyedListener;
+import org.cytoscape.task.create.CloneNetworkTaskFactory;
 import org.cytoscape.view.layout.CyLayoutAlgorithmManager;
 import org.cytoscape.view.model.CyNetworkViewFactory;
 import org.cytoscape.view.model.CyNetworkViewManager;
@@ -38,9 +39,9 @@ public class Plugin implements NetworkDestroyedListener {
 	private CyApplicationManager cyApplicationManager;
 	private CyNetworkViewManager cyNetworkViewManager;
 	private CySwingApplication cySwingApplication;
+	private CloneNetworkTaskFactory cloneNetworkTaskFactory;
 	
 	private CyTargetLinkerPanel panel;
-	
 	
 	public Plugin(CyNetworkFactory cyNetFct, 
 			CyNetworkManager cyNetMgr, 
@@ -54,7 +55,8 @@ public class Plugin implements NetworkDestroyedListener {
 			CyLayoutAlgorithmManager cyAlgorithmManager, 
 			CyApplicationManager cyApplicationManager,
 			CyNetworkViewManager cyNetworkViewManager,
-			CySwingApplication cySwingApplication) {
+			CySwingApplication cySwingApplication,
+			CloneNetworkTaskFactory cloneNetworkTaskFactory) {
 		extensionManager = new HashMap<CyNetwork, ExtensionManager>();
 		this.cyNetworkFactory = cyNetFct;
 		this.cyNetworkManager = cyNetMgr;
@@ -69,6 +71,7 @@ public class Plugin implements NetworkDestroyedListener {
 		this.cyApplicationManager = cyApplicationManager;
 		this.cyNetworkViewManager = cyNetworkViewManager;
 		this.cySwingApplication = cySwingApplication;
+		this.cloneNetworkTaskFactory = cloneNetworkTaskFactory;
 	}
 	
 	private VisualStyleCreator vsCreator;
@@ -79,7 +82,6 @@ public class Plugin implements NetworkDestroyedListener {
 		} else {
 			ExtensionManager mgr = new ExtensionManager(network);
 			extensionManager.put(network, mgr);
-//			panel.update();
 			return mgr;
 		}
 	}
@@ -174,7 +176,6 @@ public class Plugin implements NetworkDestroyedListener {
 
 	@Override
 	public void handleEvent(NetworkDestroyedEvent event) {
-		System.out.println(event);
 		List<CyNetwork> toRemove = new ArrayList<CyNetwork>();
 		for(CyNetwork network : extensionManager.keySet()) {
 			if(!cyNetworkManager.networkExists(network.getSUID())) {
@@ -183,7 +184,13 @@ public class Plugin implements NetworkDestroyedListener {
 		}
 		for(CyNetwork network : toRemove) {
 			extensionManager.remove(network);
+			panel.setCurrentNetwork(null);
 		}
 		panel.update();
+	}
+
+
+	public CloneNetworkTaskFactory getCloneNetworkTaskFactory() {
+		return cloneNetworkTaskFactory;
 	}
 }

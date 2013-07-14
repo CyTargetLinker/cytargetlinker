@@ -25,7 +25,6 @@ public class ColorSet {
 		if(colors.size() > num) {
 			return colors.get(num-1);
 		} else {
-			
 			return new Color(COLOR, COLOR, COLOR);
 		}
 	}

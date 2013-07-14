@@ -17,7 +17,6 @@ import org.cytoscape.model.CyNode;
 import org.cytoscape.view.layout.CyLayoutAlgorithm;
 import org.cytoscape.view.model.CyNetworkView;
 import org.cytoscape.view.model.View;
-import org.cytoscape.view.vizmap.VisualStyle;
 import org.cytoscape.work.AbstractTask;
 import org.cytoscape.work.TaskMonitor;
 
@@ -53,14 +52,11 @@ public class ExtensionTask extends AbstractTask  {
 			}
 		}
 		
-		System.out.println("Start");
 		ExtensionManager mgr = plugin.getExtensionManager(network);
 		ExtensionStep step = mgr.extendNodes(ids, datasources, direction, idAttribute);
 		tm.setStatusMessage("Visualizing result network");
 		tm.setProgress(0.7);
 		step.execute();
-		
-		System.out.println("Done");
 		
 		tm.setStatusMessage("Update network view");
 		tm.setProgress(0.9);

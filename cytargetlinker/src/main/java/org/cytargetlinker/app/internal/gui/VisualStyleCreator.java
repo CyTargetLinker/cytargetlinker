@@ -23,8 +23,14 @@ public class VisualStyleCreator {
 	
 	public VisualStyleCreator(Plugin plugin) {
 		this.plugin = plugin;
-		vs = plugin.getVisualStyleFactory().createVisualStyle("CyTargetLinker");
-
+		for(VisualStyle style : plugin.getVisualMappingManager().getAllVisualStyles()) {
+			if(style.getTitle().equals("CyTargetLinker")) {
+				vs = style;
+			}
+		}
+		if(vs == null) {
+			vs = plugin.getVisualStyleFactory().createVisualStyle("CyTargetLinker");
+		}
 	}
 	
 	private CyNetwork network;
@@ -44,12 +50,14 @@ public class VisualStyleCreator {
 	
 	}
 	
+	@SuppressWarnings("rawtypes")
 	private PassthroughMapping getNodeLabelMapping() {
 		PassthroughMapping mapping = (PassthroughMapping) plugin.getVisualMappingFunctionFactoryPassthrough().createVisualMappingFunction("name", String.class, BasicVisualLexicon.NODE_LABEL);
 		return mapping;
 	}
 	
 	// TODO: change mapping based on interaction and make sure interaction is not empty in the RINs!
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private DiscreteMapping<String, Color> getEdgeColor() {
 		Class<String> dataType = String.class;
 		DiscreteMapping<String, Color> edgeColorMapper = (DiscreteMapping) plugin.getVisualMappingFunctionFactoryDiscrete().createVisualMappingFunction("datasource", dataType, BasicVisualLexicon.EDGE_STROKE_UNSELECTED_PAINT);		
@@ -60,8 +68,9 @@ public class VisualStyleCreator {
 	        
 	    return edgeColorMapper;
 	}
-	
+
 	// TODO: change mapping based on interaction and make sure interaction is not empty in the RINs!
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private DiscreteMapping<String, ArrowShape> getArrowShape() {
 		Class<String> dataType = String.class;
 		DiscreteMapping<String, ArrowShape> arrowShapeMapper = (DiscreteMapping) plugin.getVisualMappingFunctionFactoryDiscrete().createVisualMappingFunction("datasource", dataType, BasicVisualLexicon.EDGE_TARGET_ARROW_SHAPE);
@@ -71,7 +80,6 @@ public class VisualStyleCreator {
 			arrowShapeMapper.putMapValue(ds.getName(), ArrowShapeVisualProperty.ARROW);
 		}
 		
-//		DiscreteMapping arrowShapeMapper = new DiscreteMapping(ArrowShape.class, "interaction");
         arrowShapeMapper.putMapValue("pp", ArrowShapeVisualProperty.CIRCLE);
         arrowShapeMapper.putMapValue("interaction", ArrowShapeVisualProperty.ARROW);
         arrowShapeMapper.putMapValue("Line, Arrow", ArrowShapeVisualProperty.ARROW);
@@ -81,6 +89,7 @@ public class VisualStyleCreator {
         return arrowShapeMapper;
 	}
 	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private DiscreteMapping<String, Color> getNodeColor() {
 		String ctrAttr = "biologicalType";
 		Class<String> dataType = String.class; 
@@ -101,6 +110,7 @@ public class VisualStyleCreator {
 		return dMapping;
 	}
 	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private DiscreteMapping<String, NodeShape> getNodeShapeStyle() {
 		String ctrAttr = "ctl.nodeType";
 		Class<String> dataType = String.class; 

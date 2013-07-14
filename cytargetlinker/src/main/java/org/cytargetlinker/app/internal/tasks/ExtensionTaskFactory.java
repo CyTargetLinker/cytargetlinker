@@ -1,6 +1,5 @@
 package org.cytargetlinker.app.internal.tasks;
 
-import java.io.File;
 import java.util.List;
 
 import org.cytargetlinker.app.internal.Plugin;

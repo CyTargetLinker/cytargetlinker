@@ -23,15 +23,14 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
+import org.cytargetlinker.app.internal.CyTargetLinkerProperty;
 import org.cytargetlinker.app.internal.Plugin;
 import org.cytargetlinker.app.internal.data.DataSource;
 import org.cytargetlinker.app.internal.data.DatasourceType;
 import org.cytargetlinker.app.internal.data.Direction;
-import org.cytargetlinker.app.internal.tasks.ExtensionTaskFactory;
 import org.cytoscape.model.CyColumn;
 import org.cytoscape.model.CyNetwork;
 import org.cytoscape.model.CyNode;
-import org.cytoscape.work.TaskIterator;
 
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
@@ -55,12 +54,6 @@ public class ExtensionDialog extends JDialog {
         locate();
         this.setResizable(false);
         this.pack();
-		
-		
-//		List<CyNode> nodes = CyTableUtil.getNodesInState(network,"selected",true);
-//		if(nodes.size() != 0) {
-//			
-//		}
 	}
 	
 	 private Component getMainPanel() {
@@ -95,6 +88,7 @@ public class ExtensionDialog extends JDialog {
         			CyNetwork network = nn.getNetwork();
         			String idAtt = (String) idAttribute.getSelectedItem().toString();
         			
+        			// TODO: check if attribute is valid
 //        			if(!network.getDefaultNodeTable().getColumn(idAtt).getType().equals(String.class)) {
         				List<CyNode> nodes = network.getNodeList();
         				Direction dir = (Direction) cbDirection.getSelectedItem();
@@ -104,15 +98,16 @@ public class ExtensionDialog extends JDialog {
         				for(File f : new File(dirField.getText()).listFiles()) {
         					if(f.getName().endsWith(".xgmml")) {
         						DataSource ds = new DataSource(DatasourceType.XGMML_FILE, f.getAbsolutePath());
+        						ds.setSourceName(f.getName());
         						ds.setColor(new ColorSet().getColor(count));
         						datasources.add(ds);
         						count++;
         					}
         				}
         				dispose();
-        				ExtensionTaskFactory factory = new ExtensionTaskFactory(plugin, network, idAtt, dir, nodes, datasources);
-        				TaskIterator it = factory.createTaskIterator();
-        				plugin.getDialogTaskManager().execute(it);
+        				
+        				RINSelectionDlg dlg = new RINSelectionDlg(plugin, network, idAtt, dir, nodes, datasources);
+        				dlg.setVisible(true);
 //        			} else {
 //                        JOptionPane.showMessageDialog(plugin.getCySwingApplication().getJFrame(), "Invalid identifier attribute. Please specify a String attribute.", "Warning", JOptionPane.WARNING_MESSAGE);
 //        			}
@@ -149,24 +144,29 @@ public class ExtensionDialog extends JDialog {
         builder.addLabel("Select RINs", cc.xy(1, 2));
 
         dirField = new JTextField();
+        if(!CyTargetLinkerProperty.CTL_RIN_DIRECTORY.equals("")) {
+        	dirField.setText(CyTargetLinkerProperty.CTL_RIN_DIRECTORY);
+        	getRINFiles();
+        }
+        	
         dirField.setEditable(false);
         builder.add(dirField,cc.xy(3, 2));
         
         
         JButton browseButton = new JButton("Browse");
-        browseButton.addActionListener(new ActionListener() {
-                
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    JFileChooser chooser = new JFileChooser();
-                    chooser.setDialogTitle("Select directory containing RINs");
-                    chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-                    if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-                        File dir = chooser.getSelectedFile();
-                        dirField.setText(dir.getAbsolutePath());
-                        getRINFiles();
-                    }
-                }
+        browseButton.addActionListener(new ActionListener() { 
+        	@Override
+        	public void actionPerformed(ActionEvent e) {
+        		JFileChooser chooser = new JFileChooser();
+        		chooser.setDialogTitle("Select directory containing RINs");
+        		chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        		if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+        			File dir = chooser.getSelectedFile();
+        			dirField.setText(dir.getAbsolutePath());
+        			CyTargetLinkerProperty.updateProperty(dir.getAbsolutePath());
+        			getRINFiles();
+        		}
+        	}
         });
         builder.add(browseButton, cc.xy(5, 2));
         
