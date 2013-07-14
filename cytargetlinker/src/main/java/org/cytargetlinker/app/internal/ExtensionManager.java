@@ -33,6 +33,14 @@ import org.cytargetlinker.app.internal.resources.XgmmlFileRINHandler;
 import org.cytoscape.model.CyEdge;
 import org.cytoscape.model.CyNetwork;
 
+/**
+ * 
+ * @author martina kutmon
+ * This class represents the history of the extension of one network
+ * It contains all attributes that are needed for the multi-step extension of a network
+ * TODO: undo functionality needs to be implemented!
+ *
+ */
 public class ExtensionManager {
 
 	private CyNetwork network;
@@ -64,7 +72,7 @@ public class ExtensionManager {
 			} else {
 				
 				
-				Result r = handler.getNeighbours(ids, dir);
+				Result r = handler.getNeighbours(ids, dir, current);
 				if(r != null) {
 					results.add(r);
 					for(Edge e : r.getEdges()) {
@@ -104,7 +112,7 @@ public class ExtensionManager {
 	
 	private ExtensionHandler decideHandler(DataSource ds) {
 		if(ds.getType().equals(XgmmlFileRINHandler.getDataSourceType())) {
-			return new XgmmlFileRINHandler(ds);
+			return new XgmmlFileRINHandler();
 		}
 		return null;
 	}

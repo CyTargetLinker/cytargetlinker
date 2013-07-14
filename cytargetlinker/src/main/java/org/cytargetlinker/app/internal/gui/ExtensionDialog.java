@@ -53,6 +53,12 @@ import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 
+/**
+ * 
+ * @author martina kutmon
+ * dialog window for extending a network
+ *
+ */
 public class ExtensionDialog extends JDialog {
 
 	private Plugin plugin;

@@ -33,6 +33,12 @@ import org.cytoscape.view.presentation.property.BasicVisualLexicon;
 import org.cytoscape.work.AbstractTask;
 import org.cytoscape.work.TaskMonitor;
 
+/**
+ * 
+ * @author martina kutmon
+ * Task that shows and hides edges based on threshold and show/hide option
+ *
+ */
 public class ShowHideTask extends AbstractTask {
 
 	private Plugin plugin;

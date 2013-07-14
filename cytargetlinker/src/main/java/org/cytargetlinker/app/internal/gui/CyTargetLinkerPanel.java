@@ -55,6 +55,16 @@ import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 
+/**
+ * 
+ * @author martina kutmon
+ * side panel in the control panel of Cytoscape (WEST)
+ * adds a dropdown box to select which extended network should be visualized
+ * shows the number of edges added, possibility to change the color
+ * possibility to show/hide a datasource
+ * possibility to set an overlap threshold
+ *
+ */
 public class CyTargetLinkerPanel extends JPanel implements CytoPanelComponent {
 
 	private JPanel contentPanel;

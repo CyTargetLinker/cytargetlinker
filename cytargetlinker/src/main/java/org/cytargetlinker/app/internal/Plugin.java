@@ -40,6 +40,13 @@ import org.cytoscape.view.vizmap.VisualMappingManager;
 import org.cytoscape.view.vizmap.VisualStyleFactory;
 import org.cytoscape.work.swing.DialogTaskManager;
 
+/**
+ * 
+ * @author martina kutmon
+ * This class is the container for all necessary services
+ * and functionality within Cytoscape.
+ *
+ */
 public class Plugin implements NetworkDestroyedListener {
 
 	public Map<CyNetwork, ExtensionManager> extensionManager;

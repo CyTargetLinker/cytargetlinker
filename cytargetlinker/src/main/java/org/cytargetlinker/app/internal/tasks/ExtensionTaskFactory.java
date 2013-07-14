@@ -27,6 +27,12 @@ import org.cytoscape.model.CyNode;
 import org.cytoscape.work.AbstractTaskFactory;
 import org.cytoscape.work.TaskIterator;
 
+/**
+ * 
+ * @author martina kutmon
+ * AbstractTaskFactory that handles the extension step
+ *
+ */
 public class ExtensionTaskFactory extends AbstractTaskFactory {
 
 	private Plugin plugin;

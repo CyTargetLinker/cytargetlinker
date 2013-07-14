@@ -23,7 +23,12 @@ import java.util.Map;
 import org.cytoscape.model.CyEdge;
 import org.cytoscape.model.CyNode;
 
-
+/**
+ * 
+ * @author martina kutmon
+ * Edge object within CyTargetLinker
+ *
+ */
 public class Edge {
 
 	private String id;

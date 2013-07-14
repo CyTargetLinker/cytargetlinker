@@ -28,6 +28,13 @@ import org.cytoscape.model.CyNode;
 import org.cytoscape.view.model.CyNetworkView;
 import org.cytoscape.view.model.View;
 
+/**
+ * 
+ * @author martina kutmon
+ * TODO: not working yet - test with Java 7
+ * ClassNotFound exception for JMenuItem
+ *
+ */
 public class RightClickMenu implements CyNodeViewContextMenuFactory {
 
 	@Override

@@ -21,6 +21,13 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 
+ * @author martina kutmon
+ * returns one of the colors specified OR
+ * if more datasources are used, it returns a random color
+ *
+ */
 public class ColorSet {
 
 	private List<Color> colors;
@@ -28,13 +35,44 @@ public class ColorSet {
 	
 	public ColorSet() {
 		colors = new ArrayList<Color>();
-		colors.add(new Color(228,26,28));
-		colors.add(new Color(55,26,184));
-		colors.add(new Color(77,175,74));
-		colors.add(new Color(152,78,163));
-		colors.add(new Color(255,127,0));
-		colors.add(new Color(166,86,40));
-		colors.add(new Color(247,129,191));
+		Color c = new Color(31, 120, 180);
+        colors.add(c);
+        // red
+        c = new Color(227, 26, 28);
+        colors.add(c);
+        // violet
+        c = new Color(106, 61, 154);
+        colors.add(c);
+        // orange
+        c = new Color(255, 127, 0);
+        colors.add(c);
+        // green
+        c = new Color(51, 160, 44);
+        colors.add(c);
+        
+        // light blue
+        c = new Color(166, 206, 227);
+        colors.add(c);
+        // light red
+        c = new Color(251, 154, 153);
+        colors.add(c);
+        // light violet
+        c = new Color(202, 178, 214);
+        colors.add(c);
+        // yellow
+        c = new Color(253, 191, 111);
+        colors.add(c);
+        // light green
+        c = new Color(178, 223, 138);
+        colors.add(c);
+		
+//		colors.add(new Color(228,26,28));
+//		colors.add(new Color(55,26,184));
+//		colors.add(new Color(77,175,74));
+//		colors.add(new Color(152,78,163));
+//		colors.add(new Color(255,127,0));
+//		colors.add(new Color(166,86,40));
+//		colors.add(new Color(247,129,191));
 		
 	}
 	

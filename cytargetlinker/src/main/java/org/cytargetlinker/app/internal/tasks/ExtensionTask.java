@@ -37,6 +37,12 @@ import org.cytoscape.view.model.View;
 import org.cytoscape.work.AbstractTask;
 import org.cytoscape.work.TaskMonitor;
 
+/**
+ * 
+ * @author martina kutmon
+ * AbstractTask that performs the extension step of a network
+ *
+ */
 public class ExtensionTask extends AbstractTask  {
 
 	private Plugin plugin;

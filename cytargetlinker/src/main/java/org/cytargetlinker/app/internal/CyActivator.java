@@ -42,6 +42,13 @@ import org.cytoscape.view.vizmap.VisualStyleFactory;
 import org.cytoscape.work.swing.DialogTaskManager;
 import org.osgi.framework.BundleContext;
 
+/**
+ * 
+ * @author martina kutmon
+ * OSGi activator class of CyTargetLinker
+ * Retrieves all necessary services from Cytoscape and registeres all actions
+ *
+ */
 public class CyActivator extends AbstractCyActivator {
 
 	@Override
@@ -86,7 +93,4 @@ public class CyActivator extends AbstractCyActivator {
 		registerAllServices(context, helpAction, properties);
 		registerService(context, panel, CytoPanelComponent.class, new Properties());
 	}
-	
-	
-
 }

@@ -20,9 +20,12 @@ package org.cytargetlinker.app.internal.data;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.cytoscape.model.CyEdge;
-import org.cytoscape.model.CyNode;
-
+/**
+ * 
+ * @author martina kutmon
+ * Contains the resulting edges for one datasource in one extension step
+ *
+ */
 public class Result {
 
 	private DataSource ds;
@@ -33,15 +36,11 @@ public class Result {
 	private Direction dir;
 
 	private List<Edge> edges;
-	private List<CyNode> newNodes;
-	private List<CyEdge> hiddenEdges;
 	
 	private boolean show = true;
 	
 	public Result() {
 		edges = new ArrayList<Edge>();
-		newNodes = new ArrayList<CyNode>();
-		hiddenEdges = new ArrayList<CyEdge>();
 	}
 	
 	public String getRinName() {
@@ -88,17 +87,5 @@ public class Result {
 
 	public void setShow(boolean show) {
 		this.show = show;
-	}
-
-	public List<CyNode> getNewNodes() {
-		return newNodes;
-	}
-
-	public void setNewNodes(List<CyNode> newNodes) {
-		this.newNodes = newNodes;
-	}
-
-	public List<CyEdge> getHiddenEdges() {
-		return hiddenEdges;
 	}
 }

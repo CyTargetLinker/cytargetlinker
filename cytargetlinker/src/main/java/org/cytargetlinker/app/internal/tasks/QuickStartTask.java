@@ -39,6 +39,13 @@ import org.cytoscape.view.vizmap.VisualStyle;
 import org.cytoscape.work.AbstractTask;
 import org.cytoscape.work.TaskMonitor;
 
+/**
+ * 
+ * @author martina kutmon
+ * Quick start task 
+ * TODO: fix to make it more generic
+ *
+ */
 public class QuickStartTask extends AbstractTask {
 	
 	private Plugin plugin;

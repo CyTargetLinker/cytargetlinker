@@ -26,16 +26,16 @@ import org.cytargetlinker.app.internal.data.Direction;
 import org.cytargetlinker.app.internal.data.Result;
 import org.cytargetlinker.app.internal.io.XgmmlParser;
 
+/**
+ * 
+ * @author martina kutmon
+ * extension handler for XGMML files
+ *
+ */
 public class XgmmlFileRINHandler implements ExtensionHandler {
 
-	private DataSource ds;
-	
-	public XgmmlFileRINHandler(DataSource ds) {
-		this.ds = ds;
-	}
-
 	@Override
-	public Result getNeighbours(List<String> ids, Direction dir) {
+	public Result getNeighbours(List<String> ids, Direction dir, DataSource ds) {
 		File file = new File(ds.getSource());
 		if(file.exists()) {
 			try {

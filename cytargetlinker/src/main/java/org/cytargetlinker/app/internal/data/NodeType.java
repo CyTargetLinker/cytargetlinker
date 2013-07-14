@@ -17,6 +17,16 @@
 //
 package org.cytargetlinker.app.internal.data;
 
+/**
+ * 
+ * @author martina kutmon
+ * Indicates which node shape should be used
+ * Initial -> circle
+ * Regulator -> rounded rectangle
+ * Target -> Triangle
+ * Both -> Diamond
+ *
+ */
 public enum NodeType {
 	INITIAL,
 	REGULATOR,

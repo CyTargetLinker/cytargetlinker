@@ -31,6 +31,12 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+/**
+ * 
+ * @author martina kutmon
+ * reads in xgmml files and filters interactions based on the query ids
+ *
+ */
 public class CyTargetLinkerParser extends DefaultHandler {
 
 	private List<Node> nodeList;

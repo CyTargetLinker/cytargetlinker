@@ -26,6 +26,13 @@ import org.cytoscape.model.CyEdge;
 import org.cytoscape.model.CyNetwork;
 import org.cytoscape.model.CyNode;
 
+/**
+ * 
+ * @author martina kutmon
+ * One extension step with multiple datasources
+ * creates all the necessary CyNodes and CyEdges for the extended network
+ *
+ */
 public class ExtensionStep {
 
 	private List<Result> results;

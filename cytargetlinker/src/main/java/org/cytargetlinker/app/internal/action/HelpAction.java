@@ -22,6 +22,13 @@ import java.awt.event.ActionEvent;
 import org.cytoscape.application.swing.AbstractCyAction;
 import org.cytoscape.util.swing.OpenBrowser;
 
+/**
+ * 
+ * @author martina kutmon
+ * Adds menu item to Apps -> CyTargetLinker -> Help
+ * Opens CyTargetLinker website
+ *
+ */
 public class HelpAction extends AbstractCyAction {
 
 	private OpenBrowser openBrowser;

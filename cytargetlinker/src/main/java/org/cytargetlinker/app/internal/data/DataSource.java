@@ -23,6 +23,13 @@ import java.util.Set;
 
 import org.cytoscape.model.CyEdge;
 
+/**
+ * 
+ * @author martina kutmon
+ * Contains information about the different data sources
+ * Datasource is valid within one extended network (over multiple steps)
+ *
+ */
 public class DataSource implements Comparable<DataSource> {
 
 	private DatasourceType type;

@@ -24,9 +24,11 @@ import org.cytargetlinker.app.internal.tasks.QuickStartTaskFactory;
 import org.cytoscape.application.swing.AbstractCyAction;
 import org.cytoscape.work.TaskIterator;
 
-
 /**
- * Creates a new menu item under Apps menu section.
+ * 
+ * @author martina kutmon
+ * Idea: provide a list of identifiers and labels and extend the nodes in a new network
+ * TODO: implement dialog and fix QuickStartTask
  *
  */
 public class QuickStartAction extends AbstractCyAction {

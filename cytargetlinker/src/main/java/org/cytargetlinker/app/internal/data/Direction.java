@@ -17,6 +17,12 @@
 //
 package org.cytargetlinker.app.internal.data;
 
+/**
+ * 
+ * @author martina kutmon
+ * Indicates the direction of the extension of the network
+ *
+ */
 public enum Direction {
 	// add only regulators = SOURCE
 	SOURCE ("Add regulators"),

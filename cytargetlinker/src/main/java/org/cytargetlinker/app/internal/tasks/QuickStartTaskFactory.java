@@ -21,6 +21,12 @@ import org.cytargetlinker.app.internal.Plugin;
 import org.cytoscape.work.AbstractTaskFactory;
 import org.cytoscape.work.TaskIterator;
 
+/**
+ * 
+ * @author martina kutmon
+ * TaskFactory for QuickStartTask
+ *
+ */
 public class QuickStartTaskFactory extends AbstractTaskFactory {
 
 	private Plugin plugin;

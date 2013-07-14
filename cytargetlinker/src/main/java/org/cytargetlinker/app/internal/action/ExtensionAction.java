@@ -25,9 +25,17 @@ import org.cytargetlinker.app.internal.Plugin;
 import org.cytargetlinker.app.internal.gui.ExtensionDialog;
 import org.cytoscape.application.swing.AbstractCyAction;
 
+/**
+ * 
+ * @author martina kutmon
+ * Adds menu item to Apps -> CyTargetLinker -> Extend Network
+ * If no network is opened - warning
+ * If network is opened - extension dialog is opened
+ *
+ */
 public class ExtensionAction extends AbstractCyAction {
 
-private Plugin plugin;
+	private Plugin plugin;
 	
 	public ExtensionAction(final String menuTitle, Plugin plugin) {
 		

@@ -22,7 +22,12 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-
+/**
+ * 
+ * @author martina kutmon
+ * Node object within CyTargetLinker
+ *
+ */
 public class Node {
 
 	private String id;

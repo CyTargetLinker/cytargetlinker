@@ -17,6 +17,13 @@
 //
 package org.cytargetlinker.app.internal.data;
 
+/**
+ * 
+ * @author martina kutmon
+ * Enum to provide different datasource types
+ * TODO: implementation for RDF, Neo4J datasources
+ *
+ */
 public enum DatasourceType {
 
 	XGMML_FILE

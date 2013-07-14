@@ -48,6 +48,12 @@ import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 
+/**
+ * 
+ * @author martina kutmon
+ * dialog to choose which datasources should be used
+ *
+ */
 public class RINSelectionDlg extends JDialog {
 
 	private Map<String, DataSource> networkFiles;

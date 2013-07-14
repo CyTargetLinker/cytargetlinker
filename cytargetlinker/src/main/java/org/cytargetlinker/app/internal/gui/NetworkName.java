@@ -19,6 +19,12 @@ package org.cytargetlinker.app.internal.gui;
 
 import org.cytoscape.model.CyNetwork;
 
+/**
+ * 
+ * @author martina kutmon
+ * helper class to display network name in drop down boxes
+ *
+ */
 public class NetworkName {
 
 	private String name;

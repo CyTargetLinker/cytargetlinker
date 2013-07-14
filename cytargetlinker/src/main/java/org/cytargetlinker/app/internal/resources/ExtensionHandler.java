@@ -19,13 +19,19 @@ package org.cytargetlinker.app.internal.resources;
 
 import java.util.List;
 
+import org.cytargetlinker.app.internal.data.DataSource;
 import org.cytargetlinker.app.internal.data.Direction;
 import org.cytargetlinker.app.internal.data.Result;
 
-
+/**
+ * 
+ * @author martina kutmon
+ * interface which is implemented by different datasource types
+ *
+ */
 public interface ExtensionHandler {
 
-	public Result getNeighbours(List<String> ids, Direction dir);
+	public Result getNeighbours(List<String> ids, Direction dir, DataSource ds);
 
 	// TODO: interfaces don't allow static methods yet - fix when enabled
 //	public DatasourceType getDataSourceType();

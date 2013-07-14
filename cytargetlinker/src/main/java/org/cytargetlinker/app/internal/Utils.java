@@ -23,6 +23,12 @@ import org.cytoscape.model.CyNetwork;
 import org.cytoscape.view.model.CyNetworkView;
 import org.cytoscape.view.vizmap.VisualStyle;
 
+/**
+ * 
+ * @author martina kutmon
+ * Functionality that is reused by different classes and functions
+ *
+ */
 public class Utils {
 
 	public static void updateVisualStyle(Plugin plugin, CyNetworkView view, CyNetwork network) {

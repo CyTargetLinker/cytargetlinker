@@ -30,6 +30,12 @@ import org.cytargetlinker.app.internal.data.Result;
 import org.xml.sax.InputSource;
 import org.xml.sax.helpers.ParserAdapter;
 
+/**
+ * 
+ * @author martina kutmon
+ * sets up the cytargetlinker parser to extract interactions from one datasource file
+ *
+ */
 public class XgmmlParser {
 	
 	public Result parseXgmmlFile(File file, List<String> ids, Direction dir, DataSource ds) {

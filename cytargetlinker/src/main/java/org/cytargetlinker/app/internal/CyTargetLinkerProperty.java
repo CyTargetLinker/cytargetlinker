@@ -26,7 +26,13 @@ import org.cytoscape.property.SimpleCyProperty;
 import org.cytoscape.session.CySession;
 import org.cytoscape.session.CySessionManager;
 
-// TODO: saving works within one session but not after restarting cytoscape
+/**
+ * 
+ * @author martina kutmon
+ * saves the RIN directory which is used in the ExtensionDialog
+ * TODO: saving works within one session but not after restarting Cytoscape!
+ *
+ */
 public class CyTargetLinkerProperty {
 
 	public static String CTL_RIN_DIRECTORY = "";

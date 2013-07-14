@@ -22,6 +22,12 @@ import org.cytargetlinker.app.internal.Plugin;
 import org.cytoscape.work.AbstractTaskFactory;
 import org.cytoscape.work.TaskIterator;
 
+/**
+ * 
+ * @author martina kutmon
+ * show/hide task factory
+ *
+ */
 public class ShowHideTaskFactory extends AbstractTaskFactory {
 
 	private Plugin plugin;

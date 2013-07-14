@@ -33,6 +33,12 @@ import org.cytoscape.view.vizmap.VisualStyle;
 import org.cytoscape.view.vizmap.mappings.DiscreteMapping;
 import org.cytoscape.view.vizmap.mappings.PassthroughMapping;
 
+/**
+ * 
+ * @author martina kutmon
+ * creates the cytargetlinker visual style
+ *
+ */
 public class VisualStyleCreator {
 
 	private Plugin plugin;
