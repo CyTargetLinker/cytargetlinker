@@ -66,36 +66,40 @@ public class ShowHideTask extends AbstractTask {
 		}
 		Set<CyNode> hideNodes = new HashSet<CyNode>();
 		for(CyNode node : network.getNodeList()) {
-			if(!network.getRow(node).get("ctl.type", String.class).equals("query")) {
-				boolean hide = true;
-				List<CyNode> nodes = network.getNeighborList(node, CyEdge.Type.ANY);
-				for(CyNode neighbor : nodes) {
-					List<CyEdge> edges = network.getConnectingEdgeList(node, neighbor, CyEdge.Type.ANY);
-					int count = 0;
+			boolean query = false;
+			if(network.getRow(node).get("ctl.type", String.class).equals("query")) {
+				query = true;
+			}
+			boolean hide = true;
+			List<CyNode> nodes = network.getNeighborList(node, CyEdge.Type.ANY);
+			for(CyNode neighbor : nodes) {
+				List<CyEdge> edges = network.getConnectingEdgeList(node, neighbor, CyEdge.Type.ANY);
+				int count = 0;
+				for(CyEdge edge : edges) {
+					DataSource ds = exMgr.getDataSourceByName(network.getRow(edge).get("datasource", String.class));
+					if(ds != null) {
+						if(!ds.isShow()) {
+							ds.getHiddenEdges().add(edge);
+							view.getEdgeView(edge).setVisualProperty(BasicVisualLexicon.EDGE_VISIBLE, false);
+						} else {
+							count++;
+						}
+					}
+				}
+				if(count >= threshold) {
+					hide = false;
+				} else {
 					for(CyEdge edge : edges) {
 						DataSource ds = exMgr.getDataSourceByName(network.getRow(edge).get("datasource", String.class));
 						if(ds != null) {
-							if(!ds.isShow()) {
-								ds.getHiddenEdges().add(edge);
-								view.getEdgeView(edge).setVisualProperty(BasicVisualLexicon.EDGE_VISIBLE, false);
-							} else {
-								count++;
-							}
-						}
-					}
-					if(count >= threshold) {
-						hide = false;
-					} else {
-						for(CyEdge edge : edges) {
-							DataSource ds = exMgr.getDataSourceByName(network.getRow(edge).get("datasource", String.class));
-							if(ds != null) {
-								ds.getHiddenEdges().add(edge);
-							}
+							ds.getHiddenEdges().add(edge);
 							view.getEdgeView(edge).setVisualProperty(BasicVisualLexicon.EDGE_VISIBLE, false);
 						}
 					}
 				}
-				if(hide) {
+			}
+			if(hide) {
+				if(!query) {
 					hideNodes.add(node);
 				}
 			}
