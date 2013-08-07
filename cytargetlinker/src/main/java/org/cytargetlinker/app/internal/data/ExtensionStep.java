@@ -115,17 +115,31 @@ public class ExtensionStep {
 					e.setCyTarget(t);
 				}
 				
-				// create edge
-				CyEdge cyEdge = network.addEdge(e.getCySource(), e.getCyTarget(), false);
-				e.setCyEdge(cyEdge);
-				for(String str : e.getAttributes().keySet()) {
-					if(network.getRow(cyEdge).getTable().getColumn(str) == null) {
-						network.getRow(cyEdge).getTable().createColumn(str, String.class, false);
+				// check if edge from this datasource is already present
+				// especially important in the case of e.g. UniProt identifiers
+				// because multiple ENS ids link to the same UniProt identifier
+				boolean present = false;
+				List<CyEdge> edgeList = network.getConnectingEdgeList(e.getCySource(), e.getCyTarget(), CyEdge.Type.ANY);
+				for(CyEdge edge : edgeList) {
+					String ds = network.getRow(edge).get("datasource", String.class);
+					if(e.getDs().getName().equals(ds)) {
+						present = true;
 					}
-					network.getRow(cyEdge).set(str, e.getAttributes().get(str));
 				}
-				network.getRow(cyEdge).set("datasource", e.getDs().getName());
-				r.getDs().getEdges().add(cyEdge);
+				
+				if(!present) {
+					// create edge
+					CyEdge cyEdge = network.addEdge(e.getCySource(), e.getCyTarget(), false);
+					e.setCyEdge(cyEdge);
+					for(String str : e.getAttributes().keySet()) {
+						if(network.getRow(cyEdge).getTable().getColumn(str) == null) {
+							network.getRow(cyEdge).getTable().createColumn(str, String.class, false);
+						}
+						network.getRow(cyEdge).set(str, e.getAttributes().get(str));
+					}
+					network.getRow(cyEdge).set("datasource", e.getDs().getName());
+					r.getDs().getEdges().add(cyEdge);
+				}
 			}
 		}
 	}
