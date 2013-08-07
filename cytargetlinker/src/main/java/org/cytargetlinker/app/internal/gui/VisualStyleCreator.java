@@ -143,7 +143,7 @@ public class VisualStyleCreator {
 		String reg  = NodeType.REGULATOR.toString();
 		dMapping.putMapValue(reg, NodeShapeVisualProperty.ROUND_RECTANGLE);
 		String tar  = NodeType.TARGET.toString();
-		dMapping.putMapValue(tar, NodeShapeVisualProperty.TRIANGLE);
+		dMapping.putMapValue(tar, NodeShapeVisualProperty.HEXAGON);
 		String both  = NodeType.BOTH.toString();
 		dMapping.putMapValue(both, NodeShapeVisualProperty.DIAMOND);
 		String init  = NodeType.INITIAL.toString();
