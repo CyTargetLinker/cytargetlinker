@@ -11,7 +11,7 @@
 	<artifactId>cytargetlinker</artifactId>
 	<version>3.0.0</version>
 
-	<name>CyTargetLinker App</name>
+	<name>CyTargetLinker</name>
 
 	<packaging>bundle</packaging>
 
