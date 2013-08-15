@@ -53,6 +53,7 @@ public class VisualStyleCreator {
 		}
 		if(vs == null) {
 			vs = plugin.getVisualStyleFactory().createVisualStyle("CyTargetLinker");
+			plugin.getVisualMappingManager().addVisualStyle(vs);
 		}
 	}
 	
