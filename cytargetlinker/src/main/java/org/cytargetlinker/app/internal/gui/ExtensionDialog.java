@@ -129,7 +129,7 @@ public class ExtensionDialog extends JDialog {
         				}
         				dispose();
         				
-        				RINSelectionDlg dlg = new RINSelectionDlg(plugin, network, idAtt, dir, nodes, datasources);
+        				RegINSelectionDlg dlg = new RegINSelectionDlg(plugin, network, idAtt, dir, nodes, datasources);
         				dlg.setVisible(true);
 //        			} else {
 //                        JOptionPane.showMessageDialog(plugin.getCySwingApplication().getJFrame(), "Invalid identifier attribute. Please specify a String attribute.", "Warning", JOptionPane.WARNING_MESSAGE);
@@ -163,13 +163,13 @@ public class ExtensionDialog extends JDialog {
 		FormLayout layout = new FormLayout("right:max(72dlu;p), 10dlu, 75dlu, 5dlu, p, 10dlu", "5dlu, p, 10dlu");
         PanelBuilder builder = new PanelBuilder(layout);
         builder.setDefaultDialogBorder();
-        builder.setBorder(new TitledBorder("Directory containg RINs"));
-        builder.addLabel("Select RINs", cc.xy(1, 2));
+        builder.setBorder(new TitledBorder("Directory containg RegINs"));
+        builder.addLabel("Select RegINs", cc.xy(1, 2));
 
         dirField = new JTextField();
-        if(!CyTargetLinkerProperty.CTL_RIN_DIRECTORY.equals("")) {
-        	dirField.setText(CyTargetLinkerProperty.CTL_RIN_DIRECTORY);
-        	getRINFiles();
+        if(!CyTargetLinkerProperty.CTL_RegIN_DIRECTORY.equals("")) {
+        	dirField.setText(CyTargetLinkerProperty.CTL_RegIN_DIRECTORY);
+        	getRegINFiles();
         }
         	
         dirField.setEditable(false);
@@ -181,13 +181,13 @@ public class ExtensionDialog extends JDialog {
         	@Override
         	public void actionPerformed(ActionEvent e) {
         		JFileChooser chooser = new JFileChooser();
-        		chooser.setDialogTitle("Select directory containing RINs");
+        		chooser.setDialogTitle("Select directory containing RegINs");
         		chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         		if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
         			File dir = chooser.getSelectedFile();
         			dirField.setText(dir.getAbsolutePath());
         			CyTargetLinkerProperty.updateProperty(dir.getAbsolutePath());
-        			getRINFiles();
+        			getRegINFiles();
         		}
         	}
         });
@@ -196,7 +196,7 @@ public class ExtensionDialog extends JDialog {
         return builder.getPanel();
 	}
 	
-	private void getRINFiles() {
+	private void getRegINFiles() {
         rins = new HashMap<String, File>();
         File file = new File(dirField.getText());
         if (file != null){

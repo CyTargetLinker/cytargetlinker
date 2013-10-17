@@ -29,7 +29,7 @@ import org.cytargetlinker.app.internal.data.ExtensionStep;
 import org.cytargetlinker.app.internal.data.Result;
 import org.cytargetlinker.app.internal.gui.ColorSet;
 import org.cytargetlinker.app.internal.resources.ExtensionHandler;
-import org.cytargetlinker.app.internal.resources.XgmmlFileRINHandler;
+import org.cytargetlinker.app.internal.resources.XgmmlFileRegINHandler;
 import org.cytoscape.model.CyEdge;
 import org.cytoscape.model.CyNetwork;
 
@@ -111,8 +111,8 @@ public class ExtensionManager {
 	}
 	
 	private ExtensionHandler decideHandler(DataSource ds) {
-		if(ds.getType().equals(XgmmlFileRINHandler.getDataSourceType())) {
-			return new XgmmlFileRINHandler();
+		if(ds.getType().equals(XgmmlFileRegINHandler.getDataSourceType())) {
+			return new XgmmlFileRegINHandler();
 		}
 		return null;
 	}

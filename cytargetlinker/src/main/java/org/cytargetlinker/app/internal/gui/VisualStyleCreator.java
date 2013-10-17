@@ -80,7 +80,7 @@ public class VisualStyleCreator {
 		return mapping;
 	}
 	
-	// TODO: change mapping based on interaction and make sure interaction is not empty in the RINs!
+	// TODO: change mapping based on interaction and make sure interaction is not empty in the RegINs!
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private DiscreteMapping<String, Color> getEdgeColor() {
 		Class<String> dataType = String.class;
@@ -93,7 +93,7 @@ public class VisualStyleCreator {
 	    return edgeColorMapper;
 	}
 
-	// TODO: change mapping based on interaction and make sure interaction is not empty in the RINs!
+	// TODO: change mapping based on interaction and make sure interaction is not empty in the RegINs!
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private DiscreteMapping<String, ArrowShape> getArrowShape() {
 		Class<String> dataType = String.class;

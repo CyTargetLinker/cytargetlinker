@@ -54,7 +54,7 @@ import com.jgoodies.forms.layout.FormLayout;
  * dialog to choose which datasources should be used
  *
  */
-public class RINSelectionDlg extends JDialog {
+public class RegINSelectionDlg extends JDialog {
 
 	private Map<String, DataSource> networkFiles;
 	private List<DataSource> selectedDs;
@@ -67,7 +67,7 @@ public class RINSelectionDlg extends JDialog {
 	
 	private CellConstraints cc = new CellConstraints();
 	
-	public RINSelectionDlg(Plugin plugin, CyNetwork network, String idAttribute, Direction direction, List<CyNode> nodes, List<DataSource> datasources) {
+	public RegINSelectionDlg(Plugin plugin, CyNetwork network, String idAttribute, Direction direction, List<CyNode> nodes, List<DataSource> datasources) {
 		super(plugin.getCySwingApplication().getJFrame());
 		this.plugin = plugin;
 		this.network = network;

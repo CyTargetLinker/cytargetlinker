@@ -32,7 +32,7 @@ import org.cytargetlinker.app.internal.io.XgmmlParser;
  * extension handler for XGMML files
  *
  */
-public class XgmmlFileRINHandler implements ExtensionHandler {
+public class XgmmlFileRegINHandler implements ExtensionHandler {
 
 	@Override
 	public Result getNeighbours(List<String> ids, Direction dir, DataSource ds) {

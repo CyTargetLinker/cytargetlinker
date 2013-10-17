@@ -64,7 +64,7 @@ public class ExtensionTask extends AbstractTask  {
 	@Override
 	public void run(TaskMonitor tm) throws Exception {
 		tm.setTitle("CyTargetLinker Extension");
-		tm.setStatusMessage("Extract regulatory interactions from RINS (this might take a while ...)");
+		tm.setStatusMessage("Extract regulatory interactions from RegINS (this might take a while ...)");
 		tm.setProgress(0.1);
 		
 		List<String> ids = new ArrayList<String>();
