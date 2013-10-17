@@ -101,7 +101,7 @@ public class RegINSelectionDlg extends JDialog {
 	private Component getMainPanel() {
 		FormLayout layout = new FormLayout("10dlu, p, 5dlu, p, 10dlu", getRowLayout());
 		PanelBuilder builder = new PanelBuilder(layout);
-		builder.add(new JLabel("RIN Files"), cc.xy(2, 2));
+		builder.add(new JLabel("RegIN Files"), cc.xy(2, 2));
 		builder.addSeparator("", cc.xyw(2, 3, 3));
 		int i = 0;
 		

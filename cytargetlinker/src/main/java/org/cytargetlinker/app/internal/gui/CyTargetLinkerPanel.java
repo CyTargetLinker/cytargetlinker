@@ -193,7 +193,7 @@ public class CyTargetLinkerPanel extends JPanel implements CytoPanelComponent {
 		
 		int rowCount = 6;
 		
-		builder.addLabel("RIN", cc.xy(1, rowCount));
+		builder.addLabel("RegIN", cc.xy(1, rowCount));
 		builder.addLabel("#", cc.xy(3,rowCount));
 	    builder.addLabel("Color", cc.xy(5, rowCount)); 
 	    builder.addLabel("Show/Hide", cc.xy(7, rowCount));

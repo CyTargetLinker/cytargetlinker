@@ -89,7 +89,7 @@ public class QuickStartTask extends AbstractTask {
 
 		System.out.println("Start");
 		ExtensionManager mgr = plugin.getExtensionManager(net);
-		tm.setStatusMessage("Extract regulatory interactions from RINS (this might take a while ...)");
+		tm.setStatusMessage("Extract regulatory interactions from RegINS (this might take a while ...)");
 		tm.setProgress(0.2);
 		List<String> ids = new ArrayList<String>();
 		ids.add(id);
