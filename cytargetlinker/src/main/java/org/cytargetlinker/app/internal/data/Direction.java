@@ -19,7 +19,7 @@ package org.cytargetlinker.app.internal.data;
 
 /**
  * 
- * @author martina kutmon
+ * @author mkutmon
  * Indicates the direction of the extension of the network
  *
  */

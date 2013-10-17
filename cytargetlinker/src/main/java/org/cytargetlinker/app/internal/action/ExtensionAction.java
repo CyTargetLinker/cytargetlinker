@@ -27,7 +27,7 @@ import org.cytoscape.application.swing.AbstractCyAction;
 
 /**
  * 
- * @author martina kutmon
+ * @author mkutmon
  * Adds menu item to Apps -> CyTargetLinker -> Extend Network
  * If no network is opened - warning
  * If network is opened - extension dialog is opened
@@ -38,21 +38,21 @@ public class ExtensionAction extends AbstractCyAction {
 	private Plugin plugin;
 	
 	public ExtensionAction(final String menuTitle, Plugin plugin) {
-		
 		super(menuTitle);
 		setPreferredMenu("Apps.CyTargetLinker");
 		this.plugin = plugin;
 	}
 
+	/**
+	 * at least one network loaded -> opens extension dialog
+	 * no network loaded -> warning
+	 */
 	public void actionPerformed(ActionEvent e) {
-		
 		if(plugin.getCyApplicationManager().getCurrentNetwork() != null) {
 			ExtensionDialog dlg = new ExtensionDialog(plugin);
 			dlg.setVisible(true);
 		} else {
 			JOptionPane.showMessageDialog(plugin.getCySwingApplication().getJFrame(), "No network in current session.", "Warning", JOptionPane.WARNING_MESSAGE);
 		}
-
 	}
-	
 }

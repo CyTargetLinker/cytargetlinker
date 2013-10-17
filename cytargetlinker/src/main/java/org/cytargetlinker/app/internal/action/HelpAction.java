@@ -24,7 +24,7 @@ import org.cytoscape.util.swing.OpenBrowser;
 
 /**
  * 
- * @author martina kutmon
+ * @author mkutmon
  * Adds menu item to Apps -> CyTargetLinker -> Help
  * Opens CyTargetLinker website
  *
@@ -40,6 +40,9 @@ public class HelpAction extends AbstractCyAction {
 		this.openBrowser = browser;
 	}
 
+	/**
+	 * opens CyTargetLinker website
+	 */
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		openBrowser.openURL(helpDeskURL);

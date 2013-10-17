@@ -31,7 +31,6 @@ import org.cytoscape.model.CyNetworkFactory;
 import org.cytoscape.model.CyNetworkManager;
 import org.cytoscape.model.events.NetworkDestroyedEvent;
 import org.cytoscape.model.events.NetworkDestroyedListener;
-import org.cytoscape.task.create.CloneNetworkTaskFactory;
 import org.cytoscape.view.layout.CyLayoutAlgorithmManager;
 import org.cytoscape.view.model.CyNetworkViewFactory;
 import org.cytoscape.view.model.CyNetworkViewManager;
@@ -42,7 +41,7 @@ import org.cytoscape.work.swing.DialogTaskManager;
 
 /**
  * 
- * @author martina kutmon
+ * @author mkutmon
  * This class is the container for all necessary services
  * and functionality within Cytoscape.
  *
@@ -63,7 +62,6 @@ public class Plugin implements NetworkDestroyedListener {
 	private CyApplicationManager cyApplicationManager;
 	private CyNetworkViewManager cyNetworkViewManager;
 	private CySwingApplication cySwingApplication;
-	private CloneNetworkTaskFactory cloneNetworkTaskFactory;
 	
 	private CyTargetLinkerPanel panel;
 	
@@ -79,8 +77,8 @@ public class Plugin implements NetworkDestroyedListener {
 			CyLayoutAlgorithmManager cyAlgorithmManager, 
 			CyApplicationManager cyApplicationManager,
 			CyNetworkViewManager cyNetworkViewManager,
-			CySwingApplication cySwingApplication,
-			CloneNetworkTaskFactory cloneNetworkTaskFactory) {
+			CySwingApplication cySwingApplication) {
+		
 		extensionManager = new HashMap<CyNetwork, ExtensionManager>();
 		this.cyNetworkFactory = cyNetFct;
 		this.cyNetworkManager = cyNetMgr;
@@ -95,11 +93,13 @@ public class Plugin implements NetworkDestroyedListener {
 		this.cyApplicationManager = cyApplicationManager;
 		this.cyNetworkViewManager = cyNetworkViewManager;
 		this.cySwingApplication = cySwingApplication;
-		this.cloneNetworkTaskFactory = cloneNetworkTaskFactory;
 	}
 	
 	private VisualStyleCreator vsCreator;
 	
+	/**
+	 * one extension manager for each network
+	 */
 	public ExtensionManager getExtensionManager(CyNetwork network) {
 		if(extensionManager.containsKey(network)) {
 			return extensionManager.get(network);
@@ -110,12 +110,19 @@ public class Plugin implements NetworkDestroyedListener {
 		}
 	}
 
+	/**
+	 * creates CyTargetLinker visual style
+	 */
 	public VisualStyleCreator getVisualStypeCreator() {
 		if(vsCreator == null) {
 			vsCreator = new VisualStyleCreator(this);
 		}
 		return vsCreator;
 	}
+	
+	//////////////////////////////////////
+	// SETTERS AND GETTERS
+	//////////////////////////////////////
 
 	public Map<CyNetwork, ExtensionManager> getManagers() {
 		return extensionManager;
@@ -198,6 +205,9 @@ public class Plugin implements NetworkDestroyedListener {
 		this.panel = panel;
 	}
 
+	/**
+	 * remove extension manager of network when destroyed
+	 */
 	@Override
 	public void handleEvent(NetworkDestroyedEvent event) {
 		List<CyNetwork> toRemove = new ArrayList<CyNetwork>();
@@ -211,10 +221,5 @@ public class Plugin implements NetworkDestroyedListener {
 			panel.setCurrentNetwork(null);
 		}
 		panel.update();
-	}
-
-
-	public CloneNetworkTaskFactory getCloneNetworkTaskFactory() {
-		return cloneNetworkTaskFactory;
 	}
 }

@@ -19,7 +19,7 @@ package org.cytargetlinker.app.internal.data;
 
 /**
  * 
- * @author martina kutmon
+ * @author mkutmon
  * Enum to provide different datasource types
  * TODO: implementation for RDF, Neo4J datasources
  *

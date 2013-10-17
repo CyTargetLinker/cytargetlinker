@@ -25,8 +25,8 @@ import org.cytoscape.model.CyEdge;
 
 /**
  * 
- * @author martina kutmon
- * Contains information about the different data sources
+ * @author mkutmon
+ * Contains information about the different data sources (RegINs)
  * Datasource is valid within one extended network (over multiple steps)
  *
  */
@@ -38,9 +38,14 @@ public class DataSource implements Comparable<DataSource> {
 	private Color color;
 	private String sourceName;
 	
-	private Set<CyEdge> edges;
-	private Set<CyEdge> hiddenEdges;
+	// show/hide functionality of cytargetlinker
 	private boolean show = true;
+	
+	// which edges have been added by this RegIN
+	private Set<CyEdge> edges;
+	// which edges are currently hidden
+	private Set<CyEdge> hiddenEdges;
+	
 	
 	public DataSource(DatasourceType type, String source) {
 		super();
@@ -49,6 +54,10 @@ public class DataSource implements Comparable<DataSource> {
 		edges = new HashSet<CyEdge>();
 		hiddenEdges = new HashSet<CyEdge>();
 	}
+	
+	//////////////////////////////////////
+	// SETTERS AND GETTERS
+	//////////////////////////////////////
 	
 	public DatasourceType getType() {
 		return type;

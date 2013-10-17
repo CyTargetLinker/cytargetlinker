@@ -25,12 +25,15 @@ import org.cytoscape.view.vizmap.VisualStyle;
 
 /**
  * 
- * @author martina kutmon
- * Functionality that is reused by different classes and functions
+ * @author mkutmon
+ * Utility functionality that is reused by different classes and functions
  *
  */
 public class Utils {
 
+	/**
+	 * updates visual style for a specific network
+	 */
 	public static void updateVisualStyle(Plugin plugin, CyNetworkView view, CyNetwork network) {
 		VisualStyle vs = plugin.getVisualStypeCreator().getVisualStyle(network);
 		plugin.getVisualMappingManager().setVisualStyle(vs, view);
@@ -38,7 +41,9 @@ public class Utils {
 		view.updateView();
 	}
 
-
+	/**
+	 * returns network view
+	 */
 	public static CyNetworkView getNetworkView(CyNetwork network, Plugin plugin) {
 		Collection<CyNetworkView> views = plugin.getCyNetworkViewManager().getNetworkViews(network);
 		CyNetworkView view;

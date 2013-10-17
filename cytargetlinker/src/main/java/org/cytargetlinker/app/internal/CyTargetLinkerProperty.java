@@ -28,7 +28,7 @@ import org.cytoscape.session.CySessionManager;
 
 /**
  * 
- * @author martina kutmon
+ * @author mkutmon
  * saves the RegIN directory which is used in the ExtensionDialog
  * TODO: saving works within one session but not after restarting Cytoscape!
  *
@@ -46,36 +46,30 @@ public class CyTargetLinkerProperty {
 	public CyProperty<Properties> checkCyProperties(CySessionManager cySessionManager) {
 		CySession session = cySessionManager.getCurrentSession();
 		
-		if(session.equals(null))
-			System.out.println("session null");
-
-		//3. Get all properties and loop through to find your own.
-		Set<CyProperty<?>> props = new HashSet<CyProperty<?>>();
-		props = session.getProperties();
-		if(props.equals(null))
-			System.out.println("props null");
+		// check if cytargetlinker directory property already exists
 		boolean flag = false;
-
-		for (CyProperty<?> prop : props) {
-		    if (prop.getName() != null){
-		    	if (prop.getName().equals(CTL_RegIN_DIRECTOY_PROP)) {
-		    		ctlProperty = (CyProperty<Properties>) prop;
-		        flag = true;
-		        break;
-		    	}
-		    }
+		if(session != null) {
+			Set<CyProperty<?>> props = new HashSet<CyProperty<?>>();
+			props = session.getProperties();
+			if(props != null) {
+				for (CyProperty<?> prop : props) {
+				    if (prop.getName() != null){
+				    	if (prop.getName().equals(CTL_RegIN_DIRECTOY_PROP)) {
+				    		ctlProperty = (CyProperty<Properties>) prop;
+				    		flag = true;
+				    		break;
+				    	}
+				    }
+				}
+			}
 		}
 
-		//4. If the property does not exists, create nodeBorderWidthProperty
-		if (!flag)
-		{
+		if (!flag) {
+			// if property does not exists yet = create new property
 			CTL_PROP.setProperty(CTL_RegIN_DIRECTOY_PROP, CTL_RegIN_DIRECTORY);
 			ctlProperty = new SimpleCyProperty("CyTargetLinker", CTL_PROP, String.class, CyProperty.SavePolicy.CONFIG_DIR);
-			System.out.println("create new property");
-		}
-		//5. If not null, property exists, get value from it and set NodeBorderWidthInPathsValue
-		else
-		{
+		} else {
+			// if property does exist - retrieve directory value
 			CTL_PROP = ctlProperty.getProperties();
 			CTL_RegIN_DIRECTOY_PROP = (String)CTL_PROP.get(CTL_RegIN_DIRECTOY_PROP);
 		}

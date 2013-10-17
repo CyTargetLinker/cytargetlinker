@@ -25,28 +25,40 @@ import org.cytoscape.model.CyNode;
 
 /**
  * 
- * @author martina kutmon
- * Edge object within CyTargetLinker
+ * @author mkutmon
+ * CyTargetLinker edge object
  *
  */
 public class Edge {
 
 	private String id;
+	// source and target nodes
 	private Node source;
 	private Node target;
+	
+	// data for the edge table
 	private Map<String, String> attributes;
 	
+	// CyNodes in the Cytoscape network
 	private CyNode cySource;
 	private CyNode cyTarget;
+	
+	// resulting CyEdge object
 	private CyEdge cyEdge;
 	
+	// Edge was provided by a specific RegIN
 	private DataSource ds;
+	
 	
 	public Edge(String id) {
 		this.id = id;
 		attributes = new HashMap<String, String>();
 	}
-
+	
+	//////////////////////////////////////
+	// SETTERS AND GETTERS
+	//////////////////////////////////////
+	
 	public String getId() {
 		return id;
 	}

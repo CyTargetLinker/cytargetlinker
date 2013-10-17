@@ -28,18 +28,23 @@ import org.cytoscape.model.CyNode;
 
 /**
  * 
- * @author martina kutmon
+ * @author mkutmon
  * One extension step with multiple datasources
  * creates all the necessary CyNodes and CyEdges for the extended network
  *
  */
 public class ExtensionStep {
 
+	// result list of edges for each RegIN (datasource)
 	private List<Result> results;
+	
+	// which extension step level is it
 	private int stepNum = 0;
+	
 	private CyNetwork network;
 	private String idAttribute;
 	
+	// nodes added in this extension step
 	private Map<String, CyNode> nodesAdded;
 	
 	public ExtensionStep(CyNetwork network, String idAttribute) {
@@ -48,19 +53,11 @@ public class ExtensionStep {
 		results = new ArrayList<Result>();
 		nodesAdded = new HashMap<String, CyNode>();
 	}
-
-	public List<Result> getResults() {
-		return results;
-	}
 	
-	public int getStepNum() {
-		return stepNum;
-	}
-
-	public void setStepNum(int stepNum) {
-		this.stepNum = stepNum;
-	}
-
+	/**
+	 * executes extension step
+	 * add CyNodes and CyEdges
+	 */
 	public void execute() {
 		Map<String, CyNode> nodesPresent = new HashMap<String, CyNode>();
 		
@@ -177,5 +174,21 @@ public class ExtensionStep {
 			}
 		}
 		return null;
+	}
+	
+	// ////////////////////////////////////
+	// SETTERS AND GETTERS
+	// ////////////////////////////////////
+
+	public List<Result> getResults() {
+		return results;
+	}
+
+	public int getStepNum() {
+		return stepNum;
+	}
+
+	public void setStepNum(int stepNum) {
+		this.stepNum = stepNum;
 	}
 }
