@@ -211,12 +211,14 @@ public class CyTargetLinkerPanel extends JPanel implements CytoPanelComponent {
              
             final JButton button = new JButton();
             button.setBackground(ds.getColor());
+            button.setOpaque(true);
             button.addActionListener(new ActionListener() {
             	@Override
 				public void actionPerformed(ActionEvent arg0) {
             		Color c = CyColorChooser.showDialog(plugin.getCySwingApplication().getJFrame(), "Select color for " + ds.getName(), ds.getColor());
             		ds.setColor(c);
 					button.setBackground(c);
+					button.setOpaque(true);
 					
 					CyNetworkView view = Utils.getNetworkView(mgr.getNetwork(), plugin);
 					Utils.updateVisualStyle(plugin, view, mgr.getNetwork());
