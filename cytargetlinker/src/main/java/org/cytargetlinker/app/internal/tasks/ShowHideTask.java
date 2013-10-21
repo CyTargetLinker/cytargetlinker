@@ -35,7 +35,7 @@ import org.cytoscape.work.TaskMonitor;
 
 /**
  * 
- * @author martina kutmon
+ * @author mkutmon
  * Task that shows and hides edges based on threshold and show/hide option
  *
  */
@@ -51,6 +51,9 @@ public class ShowHideTask extends AbstractTask {
 		this.network = exMgr.getNetwork();
 	}
 	
+	/**
+	 * shows/hides all edges below the set threshold and of hidden RegINs
+	 */
 	@Override
 	public void run(TaskMonitor arg0) throws Exception {
 		CyNetworkView view = Utils.getNetworkView(network, plugin);

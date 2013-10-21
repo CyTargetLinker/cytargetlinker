@@ -25,7 +25,7 @@ import org.cytargetlinker.app.internal.data.Result;
 
 /**
  * 
- * @author martina kutmon
+ * @author mkutmon
  * interface which is implemented by different datasource types
  *
  */

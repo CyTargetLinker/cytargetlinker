@@ -24,7 +24,7 @@ import java.util.Set;
 
 /**
  * 
- * @author martina kutmon
+ * @author mkutmon
  * Node object within CyTargetLinker
  *
  */
@@ -41,6 +41,10 @@ public class Node {
 		identifiers = new HashSet<String>();
 		attributes = new HashMap<String, String>();
 	}
+	
+	// ////////////////////////////////////
+	// SETTERS AND GETTERS
+	// ////////////////////////////////////
 	
 	public String getId() {
 		return id;

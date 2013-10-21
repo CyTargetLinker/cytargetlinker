@@ -22,16 +22,16 @@ import java.util.List;
 
 /**
  * 
- * @author martina kutmon
+ * @author mkutmon
  * Contains the resulting edges for one datasource in one extension step
  *
  */
 public class Result {
 
 	private DataSource ds;
-	private String rinName;
-	private String rinUrl;
-	private String rinType;
+	private String reginName;
+	private String reginUrl;
+	private String reginType;
 	
 	private Direction dir;
 
@@ -43,17 +43,21 @@ public class Result {
 		edges = new ArrayList<Edge>();
 	}
 	
-	public String getRinName() {
-		return rinName;
+	// ////////////////////////////////////
+	// SETTERS AND GETTERS
+	// ////////////////////////////////////
+	
+	public String getReginName() {
+		return reginName;
 	}
-	public void setRinName(String rinName) {
-		this.rinName = rinName;
+	public void setReginName(String reginName) {
+		this.reginName = reginName;
 	}
-	public String getRinUrl() {
-		return rinUrl;
+	public String getReginUrl() {
+		return reginUrl;
 	}
-	public void setRinUrl(String rinUrl) {
-		this.rinUrl = rinUrl;
+	public void setReginUrl(String reginUrl) {
+		this.reginUrl = reginUrl;
 	}
 	public List<Edge> getEdges() {
 		return edges;
@@ -61,11 +65,11 @@ public class Result {
 	public void setEdges(List<Edge> edges) {
 		this.edges = edges;
 	}
-	public String getRinType() {
-		return rinType;
+	public String getReginType() {
+		return reginType;
 	}
-	public void setRinType(String rinType) {
-		this.rinType = rinType;
+	public void setReginType(String reginType) {
+		this.reginType = reginType;
 	}
 	public Direction getDir() {
 		return dir;

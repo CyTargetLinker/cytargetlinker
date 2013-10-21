@@ -33,7 +33,7 @@ import org.xml.sax.helpers.DefaultHandler;
 
 /**
  * 
- * @author martina kutmon
+ * @author mkutmon
  * reads in xgmml files and filters interactions based on the query ids
  *
  */
@@ -62,6 +62,9 @@ public class CyTargetLinkerParser extends DefaultHandler {
 		networkAttr = new HashMap<String, String>();
 	}
 	
+	/**
+	 * parses a new XML element
+	 */
 	public void startElement(String namespace, String localName, String qName, Attributes atts) throws SAXException {
 		if(localName.equals("node")) {
 			String id = atts.getValue("id");
@@ -107,6 +110,9 @@ public class CyTargetLinkerParser extends DefaultHandler {
 		
 	}
 	
+	/**
+	 * adds a new CTL Edge
+	 */
 	private void addEdge(Edge e, String id, Node sourceNode, Node targetNode) {
 		currentEdge = new Edge(id);
 		currentEdge.setSource(sourceNode);
@@ -115,6 +121,9 @@ public class CyTargetLinkerParser extends DefaultHandler {
 		defineNodeType(targetNode, NodeType.TARGET);
 	}
 	
+	/**
+	 * defines node type
+	 */
 	private void defineNodeType(Node node, NodeType type) {
 		if(node.getNodeType() == null) {
 			node.setNodeType(type);
@@ -123,7 +132,9 @@ public class CyTargetLinkerParser extends DefaultHandler {
 		}
 	}
 	
-	
+	/**
+	 * parses XML attributes
+	 */
 	private void parseProperties(Attributes atts) {
 		String name = atts.getValue("name");
 		String label = atts.getValue("label");
@@ -155,6 +166,9 @@ public class CyTargetLinkerParser extends DefaultHandler {
 		}
 	}
 
+	/**
+	 * XML element close tag
+	 */
 	public void endElement(String uri, String localName, String qName) throws SAXException {
 		if(localName.equals("node")) {
 			if(currentNode != null) {
@@ -175,6 +189,10 @@ public class CyTargetLinkerParser extends DefaultHandler {
 		edgeList.clear();
 		nodeMap.clear();
 	}
+	
+	// ////////////////////////////////////
+	// SETTERS AND GETTERS
+	// ////////////////////////////////////
 	
 	public List<Edge> getEdgeList() {
 		return edgeList;

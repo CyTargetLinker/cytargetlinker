@@ -30,7 +30,7 @@ import org.cytoscape.view.model.View;
 
 /**
  * 
- * @author martina kutmon
+ * @author mkutmon
  * TODO: not working yet - test with Java 7
  * ClassNotFound exception for JMenuItem
  *
@@ -51,6 +51,4 @@ public class RightClickMenu implements CyNodeViewContextMenuFactory {
 		CyMenuItem addAsSource = new CyMenuItem(item, gravity); 
 		return addAsSource;
 	}
-
-
 }

@@ -55,7 +55,7 @@ import com.jgoodies.forms.layout.FormLayout;
 
 /**
  * 
- * @author martina kutmon
+ * @author mkutmon
  * dialog window for extending a network
  *
  */
@@ -66,7 +66,7 @@ public class ExtensionDialog extends JDialog {
 	private JComboBox networkComboBox;
 	private JComboBox idAttribute;
 	private JTextField dirField;
-	private Map<String, File> rins;
+	private Map<String, File> regINs;
 	private JComboBox cbDirection;
 	
 	public ExtensionDialog(Plugin plugin) {
@@ -104,36 +104,31 @@ public class ExtensionDialog extends JDialog {
         JButton button2 = new JButton("Ok");
         button2.addActionListener(new ActionListener(){
         	public void  actionPerformed(ActionEvent e) {
-        		if(rins.isEmpty()) {
+        		if(regINs.isEmpty()) {
         			JOptionPane.showMessageDialog(plugin.getCySwingApplication().getJFrame(), "No xgmml file in this Directory.", "Warning", JOptionPane.WARNING_MESSAGE);
         		} else {
         			NetworkName nn = (NetworkName) networkComboBox.getSelectedItem();
         			CyNetwork network = nn.getNetwork();
         			String idAtt = (String) idAttribute.getSelectedItem().toString();
         			
-        			// TODO: check if attribute is valid
-//        			if(!network.getDefaultNodeTable().getColumn(idAtt).getType().equals(String.class)) {
-        				List<CyNode> nodes = network.getNodeList();
-        				Direction dir = (Direction) cbDirection.getSelectedItem();
+        			List<CyNode> nodes = network.getNodeList();
+        			Direction dir = (Direction) cbDirection.getSelectedItem();
         				
-        				List<DataSource> datasources = new ArrayList<DataSource>();
-        				int count = 1;
-        				for(File f : new File(dirField.getText()).listFiles()) {
-        					if(f.getName().endsWith(".xgmml")) {
-        						DataSource ds = new DataSource(DatasourceType.XGMML_FILE, f.getAbsolutePath());
-        						ds.setSourceName(f.getName());
-        						ds.setColor(new ColorSet().getColor(count));
-        						datasources.add(ds);
-        						count++;
-        					}
+        			List<DataSource> datasources = new ArrayList<DataSource>();
+        			int count = 1;
+        			for(File f : new File(dirField.getText()).listFiles()) {
+        				if(f.getName().endsWith(".xgmml")) {
+        					DataSource ds = new DataSource(DatasourceType.XGMML_FILE, f.getAbsolutePath());
+        					ds.setSourceName(f.getName());
+        					ds.setColor(new ColorSet().getColor(count));
+        					datasources.add(ds);
+        					count++;
         				}
-        				dispose();
+        			}
+        			dispose();
         				
-        				RegINSelectionDlg dlg = new RegINSelectionDlg(plugin, network, idAtt, dir, nodes, datasources);
-        				dlg.setVisible(true);
-//        			} else {
-//                        JOptionPane.showMessageDialog(plugin.getCySwingApplication().getJFrame(), "Invalid identifier attribute. Please specify a String attribute.", "Warning", JOptionPane.WARNING_MESSAGE);
-//        			}
+        			RegINSelectionDlg dlg = new RegINSelectionDlg(plugin, network, idAtt, dir, nodes, datasources);
+        			dlg.setVisible(true);
         		}
         	}    
         });
@@ -197,14 +192,14 @@ public class ExtensionDialog extends JDialog {
 	}
 	
 	private void getRegINFiles() {
-        rins = new HashMap<String, File>();
+        regINs = new HashMap<String, File>();
         File file = new File(dirField.getText());
         if (file != null){
         	File[] files = file.listFiles();
                 
         	for (int i = 0; i < files.length; i++) {
         		if (files[i].isFile() && files[i].getName().contains(".xgmml")) {
-        			rins.put(files[i].getAbsolutePath(), files[i]);
+        			regINs.put(files[i].getAbsolutePath(), files[i]);
         		}
         	}
         }

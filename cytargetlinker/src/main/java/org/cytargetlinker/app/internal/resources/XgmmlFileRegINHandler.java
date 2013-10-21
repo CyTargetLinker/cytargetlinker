@@ -41,7 +41,7 @@ public class XgmmlFileRegINHandler implements ExtensionHandler {
 			try {
 				XgmmlParser parser = new XgmmlParser();
 				Result res = parser.parseXgmmlFile(file, ids, dir, ds);
-				ds.setName(res.getRinName());
+				ds.setName(res.getReginName());
 				res.setDs(ds);
 				if(res.getEdges().size() > 0) {
 					return res;

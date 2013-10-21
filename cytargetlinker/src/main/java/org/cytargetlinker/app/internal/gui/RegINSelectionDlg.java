@@ -50,8 +50,8 @@ import com.jgoodies.forms.layout.FormLayout;
 
 /**
  * 
- * @author martina kutmon
- * dialog to choose which datasources should be used
+ * @author mkutmon
+ * dialog to choose which RegINs should be used
  *
  */
 public class RegINSelectionDlg extends JDialog {

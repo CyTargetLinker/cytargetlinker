@@ -29,7 +29,7 @@ import org.cytoscape.work.TaskIterator;
 
 /**
  * 
- * @author martina kutmon
+ * @author mkutmon
  * AbstractTaskFactory that handles the extension step
  *
  */

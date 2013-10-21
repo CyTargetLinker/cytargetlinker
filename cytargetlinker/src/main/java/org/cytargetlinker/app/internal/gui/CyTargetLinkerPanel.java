@@ -57,7 +57,7 @@ import com.jgoodies.forms.layout.FormLayout;
 
 /**
  * 
- * @author martina kutmon
+ * @author mkutmon
  * side panel in the control panel of Cytoscape (WEST)
  * adds a dropdown box to select which extended network should be visualized
  * shows the number of edges added, possibility to change the color
@@ -81,6 +81,10 @@ public class CyTargetLinkerPanel extends JPanel implements CytoPanelComponent {
 		plugin.setPanel(this);
 	}
 	
+	/**
+	 * creates the side panel with a dropdown box
+	 * containing all extended networks
+	 */
 	@Override
 	public Component getComponent() {
 		mainPanel = new JPanel();
@@ -123,6 +127,10 @@ public class CyTargetLinkerPanel extends JPanel implements CytoPanelComponent {
 		}
 	}
 	
+	/**
+	 * updates content of CTL panel for specific network
+	 * @param name
+	 */
 	private void updateContentPanel(NetworkName name) {
 		if(name == null) {
 			contentPanel.removeAll();
@@ -143,6 +151,11 @@ public class CyTargetLinkerPanel extends JPanel implements CytoPanelComponent {
 		}
 	}
 	
+	/**
+	 * shows all RegINs used to extend the network
+	 * @param mgr
+	 * @return
+	 */
 	private Component getDataColorPanel(ExtensionManager mgr) {
 		JPanel panel = new JPanel();
 		panel.setLayout(new BorderLayout());
@@ -157,6 +170,9 @@ public class CyTargetLinkerPanel extends JPanel implements CytoPanelComponent {
 		return pane;
 	}
 
+	/**
+	 * creates content of CTL panel for one extended network
+	 */
 	private Component fillPanel(final ExtensionManager mgr) {
 		CellConstraints cc = new CellConstraints();
 		String rowLayout = "5dlu, pref, 5dlu, pref, 15dlu";
@@ -282,6 +298,10 @@ public class CyTargetLinkerPanel extends JPanel implements CytoPanelComponent {
 		}
 		return list;
 	}
+	
+	// ////////////////////////////////////
+	// SETTERS AND GETTERS
+	// ////////////////////////////////////
 
 	@Override
 	public CytoPanelName getCytoPanelName() {

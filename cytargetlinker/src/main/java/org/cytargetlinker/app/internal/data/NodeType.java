@@ -19,7 +19,7 @@ package org.cytargetlinker.app.internal.data;
 
 /**
  * 
- * @author martina kutmon
+ * @author mkutmon
  * Indicates which node shape should be used
  * Initial -> circle
  * Regulator -> rounded rectangle

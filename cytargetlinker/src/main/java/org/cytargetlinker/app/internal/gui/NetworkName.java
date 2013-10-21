@@ -21,7 +21,7 @@ import org.cytoscape.model.CyNetwork;
 
 /**
  * 
- * @author martina kutmon
+ * @author mkutmon
  * helper class to display network name in drop down boxes
  *
  */

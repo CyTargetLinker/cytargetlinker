@@ -32,7 +32,7 @@ import org.xml.sax.helpers.ParserAdapter;
 
 /**
  * 
- * @author martina kutmon
+ * @author mkutmon
  * sets up the cytargetlinker parser to extract interactions from one datasource file
  *
  */
@@ -48,13 +48,13 @@ public class XgmmlParser {
 			pa.setContentHandler(parser);
 			pa.parse(new InputSource(new FileInputStream(file)));
 			
-			res.setRinName(parser.getNetworkName());
+			res.setReginName(parser.getNetworkName());
 			res.setDir(dir);
 			if(parser.getNetworkAttr().containsKey("url")) {
-				res.setRinUrl(parser.getNetworkAttr().get("url"));
+				res.setReginUrl(parser.getNetworkAttr().get("url"));
 			}
 			if(parser.getNetworkAttr().containsKey("type")) {
-				res.setRinType(parser.getNetworkAttr().get("type"));
+				res.setReginType(parser.getNetworkAttr().get("type"));
 			}
 			
 			res.getEdges().addAll(parser.getEdgeList());

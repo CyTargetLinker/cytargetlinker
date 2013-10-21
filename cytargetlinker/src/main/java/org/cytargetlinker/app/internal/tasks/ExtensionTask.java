@@ -39,7 +39,7 @@ import org.cytoscape.work.TaskMonitor;
 
 /**
  * 
- * @author martina kutmon
+ * @author mkutmon
  * AbstractTask that performs the extension step of a network
  *
  */
@@ -67,6 +67,7 @@ public class ExtensionTask extends AbstractTask  {
 		tm.setStatusMessage("Extract regulatory interactions from RegINS (this might take a while ...)");
 		tm.setProgress(0.1);
 		
+		// get ids from current network
 		List<String> ids = new ArrayList<String>();
 		for(CyNode node : nodes) {
 			String id = network.getRow(node).get(idAttribute, String.class);
@@ -75,7 +76,10 @@ public class ExtensionTask extends AbstractTask  {
 			}
 		}
 		
+		// create extension manager for current network
 		ExtensionManager mgr = plugin.getExtensionManager(network);
+		
+		// extend all nodes in the network
 		ExtensionStep step = mgr.extendNodes(ids, datasources, direction, idAttribute);
 		tm.setStatusMessage("Visualizing result network");
 		tm.setProgress(0.7);
@@ -84,6 +88,7 @@ public class ExtensionTask extends AbstractTask  {
 		tm.setStatusMessage("Update network view");
 		tm.setProgress(0.9);
 
+		// update network view
 		plugin.getCyNetworkManager().addNetwork(network);
 		
 		Collection<CyNetworkView> views = plugin.getCyNetworkViewManager().getNetworkViews(network);
@@ -98,13 +103,17 @@ public class ExtensionTask extends AbstractTask  {
 		tm.setStatusMessage("Applying layout");
 		tm.setProgress(0.95);
 		
+		// apply layout algorithm for networks with less than 10000 nodes
 		Set<View<CyNode>> nodes = new HashSet<View<CyNode>>();
-		CyLayoutAlgorithm layout = plugin.getCyAlgorithmManager().getLayout("force-directed");
-		insertTasksAfterCurrentTask(layout.createTaskIterator(view, layout.createLayoutContext(), nodes, null));
+		if(nodes.size() < 10000) {
+			CyLayoutAlgorithm layout = plugin.getCyAlgorithmManager().getLayout("force-directed");
+			insertTasksAfterCurrentTask(layout.createTaskIterator(view, layout.createLayoutContext(), nodes, null));
+		}
 		
 		tm.setStatusMessage("Applying visual style");
 		tm.setProgress(0.98);
 		
+		// update visual style
 		Utils.updateVisualStyle(plugin, view, network);
 		plugin.getPanel().update();
 		

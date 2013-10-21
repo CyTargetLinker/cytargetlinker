@@ -35,7 +35,7 @@ import org.cytoscape.view.vizmap.mappings.PassthroughMapping;
 
 /**
  * 
- * @author martina kutmon
+ * @author mkutmon
  * creates the cytargetlinker visual style
  *
  */

@@ -23,7 +23,7 @@ import java.util.List;
 
 /**
  * 
- * @author martina kutmon
+ * @author mkutmon
  * returns one of the colors specified OR
  * if more datasources are used, it returns a random color
  *
@@ -33,6 +33,7 @@ public class ColorSet {
 	private List<Color> colors;
 	public static final int COLOR = (int) (Math.random() * 256);
 	
+	// default color set
 	public ColorSet() {
 		colors = new ArrayList<Color>();
 		Color c = new Color(31, 120, 180);
@@ -65,15 +66,6 @@ public class ColorSet {
         // light green
         c = new Color(178, 223, 138);
         colors.add(c);
-		
-//		colors.add(new Color(228,26,28));
-//		colors.add(new Color(55,26,184));
-//		colors.add(new Color(77,175,74));
-//		colors.add(new Color(152,78,163));
-//		colors.add(new Color(255,127,0));
-//		colors.add(new Color(166,86,40));
-//		colors.add(new Color(247,129,191));
-		
 	}
 	
 	public Color getColor(int num) {
