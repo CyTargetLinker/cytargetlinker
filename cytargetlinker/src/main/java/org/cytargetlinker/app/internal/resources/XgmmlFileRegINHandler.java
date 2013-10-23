@@ -28,7 +28,7 @@ import org.cytargetlinker.app.internal.io.XgmmlParser;
 
 /**
  * 
- * @author martina kutmon
+ * @author mkutmon
  * extension handler for XGMML files
  *
  */
