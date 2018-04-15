@@ -76,7 +76,7 @@ public class VisualStyleCreator {
 	
 	private PassthroughMapping<String, String> getNodeLabelMapping() {
 		PassthroughMapping<String, String> mapping;
-		mapping = (PassthroughMapping<String, String>) manager.getVisualMappingFunctionFactoryPassthrough().createVisualMappingFunction("name", String.class, BasicVisualLexicon.NODE_LABEL);
+		mapping = (PassthroughMapping<String, String>) manager.getVisualMappingFunctionFactoryPassthrough().createVisualMappingFunction("CTL.label", String.class, BasicVisualLexicon.NODE_LABEL);
 		return mapping;
 	}
 	
