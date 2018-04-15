@@ -37,7 +37,7 @@ import com.jgoodies.forms.layout.FormLayout;
  * dialog to choose which RegINs should be used
  *
  */
-public class RegINSelectionDlg extends JDialog {
+public class LinksetSelectionDlg extends JDialog {
 
 	private Map<String, File> map;
 	private List<File> linkSets;
@@ -50,7 +50,7 @@ public class RegINSelectionDlg extends JDialog {
 	
 	private CellConstraints cc;
 	
-	public RegINSelectionDlg(CTLManager manager, CyNetwork network, String idAttribute, Direction direction, String lsDir) {
+	public LinksetSelectionDlg(CTLManager manager, CyNetwork network, String idAttribute, Direction direction, String lsDir) {
 		super(manager.getApplicationFrame());
 		cc = new CellConstraints();
 		map = new HashMap<String, File>();
@@ -89,7 +89,7 @@ public class RegINSelectionDlg extends JDialog {
 	private Component getMainPanel() {
 		FormLayout layout = new FormLayout("10dlu, p, 5dlu, p, 10dlu", getRowLayout());
 		PanelBuilder builder = new PanelBuilder(layout);
-		builder.add(new JLabel("RegIN Files"), cc.xy(2, 2));
+		builder.add(new JLabel("Linkset Files"), cc.xy(2, 2));
 		builder.addSeparator("", cc.xyw(2, 3, 3));
 		int i = 0;
 		

@@ -106,7 +106,7 @@ public class ExtensionDialog extends JDialog {
 	        				}
 	        				if(count > 0) {
 		        				dispose();
-		        				RegINSelectionDlg dlg = new RegINSelectionDlg(manager, network, idAtt, dir, dirField.getText());
+		        				LinksetSelectionDlg dlg = new LinksetSelectionDlg(manager, network, idAtt, dir, dirField.getText());
 			        			dlg.setVisible(true);
 	        				} else {
 	        					JOptionPane.showMessageDialog(manager.getApplicationFrame(), "LinkSet directory does not contain any LinkSet files (XGMML files).", "Error", JOptionPane.ERROR_MESSAGE);
@@ -241,7 +241,7 @@ public class ExtensionDialog extends JDialog {
 			Collection<CyColumn> columns = network.getDefaultNodeTable().getColumns();
 			List<String> list = new ArrayList<String>();
 			for(CyColumn col : columns) {
-				if(!col.getName().equals("SUID") && !col.getName().equals("selected")) {
+				if(!col.getName().equals("SUID") && !col.getName().equals("selected") && !col.getName().equals("name")) {
 					list.add(col.getName());
 				}
 			}
