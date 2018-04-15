@@ -19,8 +19,10 @@ package org.cytargetlinker.app.internal.tasks;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.cytargetlinker.app.internal.CTLManager;
@@ -31,8 +33,6 @@ import org.cytargetlinker.app.internal.model.LinkSetManager;
 import org.cytoscape.application.CyApplicationManager;
 import org.cytoscape.model.CyNetwork;
 import org.cytoscape.model.CyNode;
-import org.cytoscape.model.subnetwork.CyRootNetwork;
-import org.cytoscape.model.subnetwork.CySubNetwork;
 import org.cytoscape.view.model.CyNetworkView;
 import org.cytoscape.work.AbstractTask;
 import org.cytoscape.work.TaskIterator;
@@ -173,15 +173,30 @@ public class ExtendNetworkTask extends AbstractTask {
 		
 		CyNetwork network2Extend = network;
 		if(!manager.getExtensions().containsKey(network2Extend)) {
-			CyRootNetwork rootNetwork = ((CySubNetwork)network).getRootNetwork();
-			CyNetwork subNetwork = rootNetwork.addSubNetwork(network.getNodeList(), network.getEdgeList());
-			subNetwork.getRow(subNetwork).set(CyNetwork.NAME, "CTL_" + network.getRow(network).get(CyNetwork.NAME, String.class));
-			manager.getNetworkManager().addNetwork(subNetwork);
-			network2Extend = subNetwork;
-			if(network.getRow(network).getTable().getColumn("CTL.Net") == null) {
-				network.getRow(network).getTable().createColumn("CTL.Net", Boolean.class, false);
-			}
-			network2Extend.getRow(network2Extend).set("CTL.Net", true);
+			// use clone command 
+			Map<String, Object> args = new HashMap<>();
+		    args.put("network", "current");
+		    manager.executeCommand("network", "clone", args, null);
+		    
+		    int count = 1;
+		    while(count < 10) {
+			    if(manager.getCurrentNetwork() == network) {
+			    	try {
+						Thread.sleep(500);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+			    } else {
+			    	break;
+			    }
+			    count++;
+		    }
+		    network2Extend = manager.getCurrentNetwork();
+		    network2Extend.getRow(network2Extend).set(CyNetwork.NAME, "CTL_" + network.getRow(network).get(CyNetwork.NAME, String.class));
+		    if(network2Extend.getRow(network2Extend).getTable().getColumn("CTL.Net") == null) {
+		    	network2Extend.getRow(network2Extend).getTable().createColumn("CTL.Net", Boolean.class, true);
+		    }
 		}
 				
 		Set<String> nodeIds = getNetworkNodeIds(network.getNodeList());

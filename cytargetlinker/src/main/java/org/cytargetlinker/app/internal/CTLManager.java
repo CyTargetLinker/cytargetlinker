@@ -30,6 +30,8 @@ import org.cytargetlinker.app.internal.model.ExtensionManager;
 import org.cytargetlinker.app.internal.model.VisualStyleCreator;
 import org.cytoscape.application.CyApplicationManager;
 import org.cytoscape.application.swing.CySwingApplication;
+import org.cytoscape.command.AvailableCommands;
+import org.cytoscape.command.CommandExecutorTaskFactory;
 import org.cytoscape.model.CyNetwork;
 import org.cytoscape.model.CyNetworkFactory;
 import org.cytoscape.model.CyNetworkManager;
@@ -47,6 +49,9 @@ import org.cytoscape.view.model.CyNetworkViewManager;
 import org.cytoscape.view.vizmap.VisualMappingFunctionFactory;
 import org.cytoscape.view.vizmap.VisualMappingManager;
 import org.cytoscape.view.vizmap.VisualStyleFactory;
+import org.cytoscape.work.SynchronousTaskManager;
+import org.cytoscape.work.TaskIterator;
+import org.cytoscape.work.TaskObserver;
 
 /**
  * 
@@ -61,6 +66,10 @@ public class CTLManager implements NetworkAddedListener, NetworkDestroyedListene
 	private String version;
 		
 	private Map<CyNetwork, ExtensionManager> extensions;
+	
+	private CommandExecutorTaskFactory commandTaskFactory;
+	private AvailableCommands availableCommands;
+	private SynchronousTaskManager taskManager;
 	
 	public CTLManager(CyServiceRegistrar registrar) {
 		this.registrar = registrar;
@@ -107,6 +116,23 @@ public class CTLManager implements NetworkAddedListener, NetworkDestroyedListene
 		return view;
 	}
 
+	
+	public void executeCommand(String namespace, String command, Map<String, Object> args, TaskObserver observer) {
+		if (commandTaskFactory == null)
+			commandTaskFactory = getService(CommandExecutorTaskFactory.class);
+		
+		if (availableCommands == null)
+			availableCommands = getService(AvailableCommands.class);
+
+		if (taskManager == null)
+			taskManager = getService(SynchronousTaskManager.class);
+
+		if (availableCommands.getCommands(namespace) == null || availableCommands.getCommands(namespace).size() == 0)
+			return;
+		TaskIterator ti = commandTaskFactory.createTaskIterator(namespace, command, args, observer);
+		taskManager.execute(ti);
+	}
+	
 	public CyLayoutAlgorithmManager getCyLayoutAlgorithmManager() {
 		return registrar.getService(CyLayoutAlgorithmManager.class);
 	}
