@@ -1,7 +1,7 @@
 // CyTargetLinker,
-// a Cytoscape plugin to extend biological networks with regulatory interaction
+// a Cytoscape plugin to extend biological networks with regulatory interactions and other relationships
 //
-// Copyright 2011-2013 Department of Bioinformatics - BiGCaT, Maastricht University
+// Copyright 2011-2018 Department of Bioinformatics - BiGCaT, Maastricht University
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -47,7 +47,7 @@ public class Edge {
 	private CyEdge cyEdge;
 	
 	// Edge was provided by a specific RegIN
-	private DataSource ds;
+	private LinkSet ds;
 	
 	
 	public Edge(String id) {
@@ -104,10 +104,10 @@ public class Edge {
 	public void setCyEdge(CyEdge cyEdge) {
 		this.cyEdge = cyEdge;
 	}
-	public DataSource getDs() {
+	public LinkSet getLinkSet() {
 		return ds;
 	}
-	public void setDs(DataSource ds) {
+	public void setDs(LinkSet ds) {
 		this.ds = ds;
 	}
 }

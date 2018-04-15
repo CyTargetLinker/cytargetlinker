@@ -1,7 +1,7 @@
 // CyTargetLinker,
-// a Cytoscape plugin to extend biological networks with regulatory interaction
+// a Cytoscape plugin to extend biological networks with regulatory interactions and other relationships
 //
-// Copyright 2011-2013 Department of Bioinformatics - BiGCaT, Maastricht University
+// Copyright 2011-2018 Department of Bioinformatics - BiGCaT, Maastricht University
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,12 +19,12 @@ package org.cytargetlinker.app.internal.io;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.util.List;
+import java.util.Set;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
-import org.cytargetlinker.app.internal.data.DataSource;
+import org.cytargetlinker.app.internal.data.LinkSet;
 import org.cytargetlinker.app.internal.data.Direction;
 import org.cytargetlinker.app.internal.data.Result;
 import org.xml.sax.InputSource;
@@ -38,23 +38,23 @@ import org.xml.sax.helpers.ParserAdapter;
  */
 public class XgmmlParser {
 	
-	public Result parseXgmmlFile(File file, List<String> ids, Direction dir, DataSource ds) {
+	public Result parseXgmmlFile(File file, Set<String> nodeIds, Direction dir, LinkSet ds) {
 		Result res = new Result();
 		try {
 			SAXParserFactory spf = SAXParserFactory.newInstance();
 			SAXParser sp = spf.newSAXParser();
 			ParserAdapter pa = new ParserAdapter(sp.getParser());
-			CyTargetLinkerParser parser = new CyTargetLinkerParser(ids, dir, ds);
+			CyTargetLinkerParser parser = new CyTargetLinkerParser(nodeIds, dir, ds);
 			pa.setContentHandler(parser);
 			pa.parse(new InputSource(new FileInputStream(file)));
 			
-			res.setReginName(parser.getNetworkName());
-			res.setDir(dir);
+			res.setLinkSetName(parser.getNetworkName());
+			res.setDirection(dir);
 			if(parser.getNetworkAttr().containsKey("url")) {
-				res.setReginUrl(parser.getNetworkAttr().get("url"));
+				res.setLinkSetURL(parser.getNetworkAttr().get("url"));
 			}
 			if(parser.getNetworkAttr().containsKey("type")) {
-				res.setReginType(parser.getNetworkAttr().get("type"));
+				res.setLinkSetType(parser.getNetworkAttr().get("type"));
 			}
 			
 			res.getEdges().addAll(parser.getEdgeList());

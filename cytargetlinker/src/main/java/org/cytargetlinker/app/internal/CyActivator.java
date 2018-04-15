@@ -1,7 +1,7 @@
 // CyTargetLinker,
-// a Cytoscape plugin to extend biological networks with regulatory interaction
+// a Cytoscape plugin to extend biological networks with regulatory interactions and other relationships
 //
-// Copyright 2011-2013 Department of Bioinformatics - BiGCaT, Maastricht University
+// Copyright 2011-2018 Department of Bioinformatics - BiGCaT, Maastricht University
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,74 +17,129 @@
 //
 package org.cytargetlinker.app.internal;
 
+import static org.cytoscape.work.ServiceProperties.COMMAND;
+import static org.cytoscape.work.ServiceProperties.COMMAND_DESCRIPTION;
+import static org.cytoscape.work.ServiceProperties.COMMAND_EXAMPLE_JSON;
+import static org.cytoscape.work.ServiceProperties.COMMAND_LONG_DESCRIPTION;
+import static org.cytoscape.work.ServiceProperties.COMMAND_NAMESPACE;
+import static org.cytoscape.work.ServiceProperties.COMMAND_SUPPORTS_JSON;
+
 import java.util.Properties;
 
 import org.cytargetlinker.app.internal.action.ExtensionAction;
 import org.cytargetlinker.app.internal.action.HelpAction;
-import org.cytargetlinker.app.internal.gui.CyTargetLinkerPanel;
-import org.cytoscape.application.CyApplicationManager;
-import org.cytoscape.application.swing.CySwingApplication;
-import org.cytoscape.application.swing.CytoPanelComponent;
-import org.cytoscape.model.CyNetworkFactory;
-import org.cytoscape.model.CyNetworkManager;
+import org.cytargetlinker.app.internal.tasks.ApplyLayoutTaskFactory;
+import org.cytargetlinker.app.internal.tasks.ApplyVisualStyleTaskFactory;
+import org.cytargetlinker.app.internal.tasks.ExtendNetworkTaskFactory;
+import org.cytargetlinker.app.internal.tasks.FilterOverlapTaskFactory;
+import org.cytargetlinker.app.internal.tasks.ShowResultsPanelTaskFactory;
+import org.cytargetlinker.app.internal.tasks.VersionTaskFactory;
+import org.cytargetlinker.app.internal.ui.CTLCytoPanel;
+import org.cytoscape.model.events.NetworkAddedListener;
 import org.cytoscape.model.events.NetworkDestroyedListener;
-import org.cytoscape.property.CyProperty;
 import org.cytoscape.service.util.AbstractCyActivator;
-import org.cytoscape.session.CySessionManager;
+import org.cytoscape.service.util.CyServiceRegistrar;
+import org.cytoscape.session.events.SessionLoadedListener;
 import org.cytoscape.util.swing.OpenBrowser;
-import org.cytoscape.view.layout.CyLayoutAlgorithmManager;
-import org.cytoscape.view.model.CyNetworkViewFactory;
-import org.cytoscape.view.model.CyNetworkViewManager;
-import org.cytoscape.view.vizmap.VisualMappingFunctionFactory;
-import org.cytoscape.view.vizmap.VisualMappingManager;
-import org.cytoscape.view.vizmap.VisualStyleFactory;
-import org.cytoscape.work.swing.DialogTaskManager;
+import org.cytoscape.work.TaskFactory;
 import org.osgi.framework.BundleContext;
 
-/**
- * 
- * @author mkutmon
- * OSGi activator class of CyTargetLinker
- * Retrieves all necessary services from Cytoscape and registeres all actions
- *
- */
 public class CyActivator extends AbstractCyActivator {
 
-	@Override
-	public void start(BundleContext context) throws Exception {
-		CyApplicationManager cyApplicationManager = getService(context, CyApplicationManager.class);
-		CyNetworkViewFactory networkViewFactory = getService(context, CyNetworkViewFactory.class);
-		CyNetworkFactory networkFactory = getService(context, CyNetworkFactory.class);
-		CyNetworkManager networkManager = getService(context, CyNetworkManager.class);
-		DialogTaskManager dialogTaskManager = getService(context, DialogTaskManager.class);
-		VisualMappingManager vmmServiceRef = getService(context,VisualMappingManager.class);
-		VisualStyleFactory visualStyleFactoryServiceRef = getService(context,VisualStyleFactory.class);
-		VisualMappingFunctionFactory vmfFactoryC = getService(context,VisualMappingFunctionFactory.class, "(mapping.type=continuous)");
-		VisualMappingFunctionFactory vmfFactoryD = getService(context,VisualMappingFunctionFactory.class, "(mapping.type=discrete)");
-		VisualMappingFunctionFactory vmfFactoryP = getService(context,VisualMappingFunctionFactory.class, "(mapping.type=passthrough)");
-		CyLayoutAlgorithmManager cyAlgorithmManager = getService(context, CyLayoutAlgorithmManager.class);
-		CyNetworkViewManager cyNetworkViewManager = getService(context, CyNetworkViewManager.class);
-		CySwingApplication cySwingApplication = getService(context, CySwingApplication.class);
-		OpenBrowser openBrowser = getService(context, OpenBrowser.class);
-						
-		Plugin plugin = new Plugin(networkFactory, networkManager, dialogTaskManager, networkViewFactory, vmmServiceRef, visualStyleFactoryServiceRef,
-				vmfFactoryC, vmfFactoryD, vmfFactoryP, cyAlgorithmManager, cyApplicationManager, cyNetworkViewManager, cySwingApplication);
-		registerService(context, plugin, NetworkDestroyedListener.class, new Properties());
-		
-		// CyTargetLinker implements two actions: extend network and help
-		ExtensionAction extAction = new ExtensionAction("Extend network", plugin);
-		registerAllServices(context, extAction, new Properties());
-		
-		HelpAction helpAction = new HelpAction("Help", openBrowser);
-		registerAllServices(context, helpAction, new Properties());
-		
-		// property stores last used RegIN directory
-		CyTargetLinkerProperty property = new CyTargetLinkerProperty();
-		CyProperty<Properties> prop = property.checkCyProperties(getService(context, CySessionManager.class));
-		registerService(context, prop, CyProperty.class, new Properties());
-		
-		// registers the panel for CyTargetLinker
-		CyTargetLinkerPanel panel = new CyTargetLinkerPanel(plugin);
-		registerService(context, panel, CytoPanelComponent.class, new Properties());
+	public CyActivator() {
+		super();
 	}
+
+	public void start(BundleContext bc) {
+
+		// Get a handle on the CyServiceRegistrar
+		CyServiceRegistrar registrar = getService(bc, CyServiceRegistrar.class);
+		CTLManager manager = new CTLManager(registrar);
+
+		// Get our version number
+		String version = bc.getBundle().getVersion().toString();
+		manager.setVersion(version);
+
+		{
+			// Register our network added listener and session loaded listener
+			registerService(bc, manager, NetworkAddedListener.class, new Properties());
+			registerService(bc, manager, SessionLoadedListener.class, new Properties());
+		}
+		
+		{
+			ExtendNetworkTaskFactory expandFactory = new ExtendNetworkTaskFactory(manager);
+			Properties expandProps = new Properties();
+			expandProps.setProperty(COMMAND_NAMESPACE, "cytargetlinker");
+			expandProps.setProperty(COMMAND, "extend");
+			expandProps.setProperty(COMMAND_DESCRIPTION, "Extends the current/specified network with first neighbour nodes from selected link sets.");
+			expandProps.setProperty(COMMAND_LONG_DESCRIPTION, "Extends the current/specified network with first neighbour nodes from selected link sets. " + 
+					"If this is the first CyTargetLinker extension of a network, the network is first cloned and then extended, keeping the original network unaltered.");
+			registerService(bc, expandFactory, TaskFactory.class, expandProps);
+		}
+		
+		{
+			ApplyVisualStyleTaskFactory visualStyleFactory = new ApplyVisualStyleTaskFactory(manager);
+			Properties visualStyleProps = new Properties();
+			visualStyleProps.setProperty(COMMAND_NAMESPACE, "cytargetlinker");
+			visualStyleProps.setProperty(COMMAND, "applyVisualstyle");
+			visualStyleProps.setProperty(COMMAND_DESCRIPTION, "Creates CyTargetLinker visual style and applies it to current/specified network");
+			visualStyleProps.setProperty(COMMAND_LONG_DESCRIPTION, "Creates CyTargetLinker visual style and applies it to current/specified network");
+			registerService(bc, visualStyleFactory, TaskFactory.class, visualStyleProps);
+		}
+		
+		{
+			ApplyLayoutTaskFactory layoutFactory = new ApplyLayoutTaskFactory(manager);
+			Properties layoutProps = new Properties();
+			layoutProps.setProperty(COMMAND_NAMESPACE, "cytargetlinker");
+			layoutProps.setProperty(COMMAND, "applyLayout");
+			layoutProps.setProperty(COMMAND_DESCRIPTION, "Applies forced-directed layout.");
+			layoutProps.setProperty(COMMAND_LONG_DESCRIPTION, "Applies forced-directed layout to current/specified network if network contains less than 10,000 nodes.");
+			registerService(bc, layoutFactory, TaskFactory.class, layoutProps);
+		}
+		
+		{
+			VersionTaskFactory versionFactory = new VersionTaskFactory(version);
+			Properties versionProps = new Properties();
+			versionProps.setProperty(COMMAND_NAMESPACE, "cytargetlinker");
+			versionProps.setProperty(COMMAND, "version");
+			versionProps.setProperty(COMMAND_DESCRIPTION, "Returns the version of CyTargetLinker app");
+			versionProps.setProperty(COMMAND_LONG_DESCRIPTION, "Returns the version of CyTargetLinker app");
+			versionProps.setProperty(COMMAND_SUPPORTS_JSON, "true");
+			versionProps.setProperty(COMMAND_EXAMPLE_JSON, "{\"version\":\"2.1.0\"}");
+			registerService(bc, versionFactory, TaskFactory.class, versionProps);
+		}
+		
+		{
+			FilterOverlapTaskFactory versionFactory = new FilterOverlapTaskFactory(manager);
+			Properties overlapProps = new Properties();
+			overlapProps.setProperty(COMMAND_NAMESPACE, "cytargetlinker");
+			overlapProps.setProperty(COMMAND, "filterOverlap");
+			overlapProps.setProperty(COMMAND_DESCRIPTION, "Hides interactions if not enough link sets support the interactions");
+			overlapProps.setProperty(COMMAND_LONG_DESCRIPTION, "Hides interactions if not enough link sets support the interactions");
+			registerService(bc, versionFactory, TaskFactory.class, overlapProps);
+		}
+		
+		{
+			ShowResultsPanelTaskFactory showResults = new ShowResultsPanelTaskFactory(manager);
+			showResults.reregister();
+		}
+		
+		{
+			CTLCytoPanel panel = new CTLCytoPanel(manager);
+			registerService(bc,panel, NetworkAddedListener.class, new Properties());
+			registerService(bc,panel, NetworkDestroyedListener.class, new Properties());
+			registerService(bc,panel, SessionLoadedListener.class, new Properties());
+		}
+		
+		{
+			// CyTargetLinker implements two actions: extend network and help
+			ExtensionAction extAction = new ExtensionAction("Extend network", manager);
+			registerAllServices(bc, extAction, new Properties());
+			
+			OpenBrowser openBrowser = getService(bc, OpenBrowser.class);
+			HelpAction helpAction = new HelpAction("Help", openBrowser);
+			registerAllServices(bc, helpAction, new Properties());
+		}
+	}
+
 }

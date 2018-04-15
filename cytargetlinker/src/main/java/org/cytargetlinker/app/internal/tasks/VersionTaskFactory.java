@@ -15,33 +15,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-package org.cytargetlinker.app.internal.data;
+package org.cytargetlinker.app.internal.tasks;
 
-/**
- * 
- * @author mkutmon
- * Indicates the direction of the extension of the network
- *
- */
-public enum Direction {
-	// add only regulators = SOURCE
-	SOURCES ("SOURCES"),
-	// add only targets = TARGET
-	TARGETS ("TARGETS"),
-	// add both = BOTH
-	BOTH ("BOTH");
-	
-	private final String direction;
-	
-	private Direction(String s) {
-		direction = s;
+import org.cytoscape.work.AbstractTaskFactory;
+import org.cytoscape.work.TaskIterator;
+
+public class VersionTaskFactory extends AbstractTaskFactory {
+
+	final String version;
+	public VersionTaskFactory(final String version) {
+			this.version = version;
 	}
-	
-	public boolean equalsName(String otherName) {
-		return (otherName == null) ? false:direction.equals(otherName);
+
+	public boolean isReady() {
+		return true;
 	}
-	
-	public String toString() {
-		return direction;
+
+	public TaskIterator createTaskIterator() {
+		return new TaskIterator(new VersionTask(version));
 	}
 }

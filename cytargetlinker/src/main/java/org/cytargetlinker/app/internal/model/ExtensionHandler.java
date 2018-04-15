@@ -15,33 +15,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-package org.cytargetlinker.app.internal.data;
+package org.cytargetlinker.app.internal.model;
+
+import java.util.Set;
+
+import org.cytargetlinker.app.internal.data.Direction;
+import org.cytargetlinker.app.internal.data.LinkSet;
+import org.cytargetlinker.app.internal.data.Result;
 
 /**
  * 
  * @author mkutmon
- * Indicates the direction of the extension of the network
+ * interface which is implemented by different datasource types
  *
  */
-public enum Direction {
-	// add only regulators = SOURCE
-	SOURCES ("SOURCES"),
-	// add only targets = TARGET
-	TARGETS ("TARGETS"),
-	// add both = BOTH
-	BOTH ("BOTH");
-	
-	private final String direction;
-	
-	private Direction(String s) {
-		direction = s;
-	}
-	
-	public boolean equalsName(String otherName) {
-		return (otherName == null) ? false:direction.equals(otherName);
-	}
-	
-	public String toString() {
-		return direction;
-	}
+public interface ExtensionHandler {
+
+	public Result getNeighbours(Set<String> nodeIds, Direction direction, LinkSet linkSet) throws InvalidLinkSetException;
+
 }

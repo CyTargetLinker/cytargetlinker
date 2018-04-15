@@ -1,7 +1,7 @@
 // CyTargetLinker,
-// a Cytoscape plugin to extend biological networks with regulatory interaction
+// a Cytoscape plugin to extend biological networks with regulatory interactions and other relationships
 //
-// Copyright 2011-2013 Department of Bioinformatics - BiGCaT, Maastricht University
+// Copyright 2011-2018 Department of Bioinformatics - BiGCaT, Maastricht University
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,8 +21,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
-import org.cytargetlinker.app.internal.data.DataSource;
+import org.cytargetlinker.app.internal.data.LinkSet;
 import org.cytargetlinker.app.internal.data.Direction;
 import org.cytargetlinker.app.internal.data.Edge;
 import org.cytargetlinker.app.internal.data.Node;
@@ -45,15 +46,15 @@ public class CyTargetLinkerParser extends DefaultHandler {
 	private Edge currentEdge;
 	
 	private Map<String, Node> nodeMap;
-	private List<String> ids;
+	private Set<String> ids;
 	
 	private String networkName;
 	private Map<String, String> networkAttr;
 	private Direction dir;
-	private DataSource ds;
+	private LinkSet ds;
 	
-	public CyTargetLinkerParser(List<String> ids, Direction dir, DataSource ds) {
-		this.ids = ids;
+	public CyTargetLinkerParser(Set<String> nodeIds, Direction dir, LinkSet ds) {
+		this.ids = nodeIds;
 		this.dir = dir;
 		this.ds = ds;
 		nodeList = new ArrayList<Node>();
@@ -86,11 +87,11 @@ public class CyTargetLinkerParser extends DefaultHandler {
 						if(sourceNode.isQuery() || targetNode.isQuery()) {
 							addEdge(currentEdge, id, sourceNode, targetNode);
 						}
-					} else if (dir.equals(Direction.SOURCE)) {
+					} else if (dir.equals(Direction.SOURCES)) {
 						if(targetNode.isQuery()) {
 							addEdge(currentEdge, id, sourceNode, targetNode);
 						}
-					} else if (dir.equals(Direction.TARGET)) {
+					} else if (dir.equals(Direction.TARGETS)) {
 						if(sourceNode.isQuery()) {
 							addEdge(currentEdge, id, sourceNode, targetNode);
 						}
@@ -117,7 +118,7 @@ public class CyTargetLinkerParser extends DefaultHandler {
 		currentEdge = new Edge(id);
 		currentEdge.setSource(sourceNode);
 		currentEdge.setTarget(targetNode);
-		defineNodeType(sourceNode, NodeType.REGULATOR);
+		defineNodeType(sourceNode, NodeType.SOURCE);
 		defineNodeType(targetNode, NodeType.TARGET);
 	}
 	

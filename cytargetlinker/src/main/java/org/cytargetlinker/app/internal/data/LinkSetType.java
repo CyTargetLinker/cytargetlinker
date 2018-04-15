@@ -20,28 +20,12 @@ package org.cytargetlinker.app.internal.data;
 /**
  * 
  * @author mkutmon
- * Indicates the direction of the extension of the network
+ * Enum to provide different datasource types
+ * TODO: implementation for RDF, Neo4J datasources
  *
  */
-public enum Direction {
-	// add only regulators = SOURCE
-	SOURCES ("SOURCES"),
-	// add only targets = TARGET
-	TARGETS ("TARGETS"),
-	// add both = BOTH
-	BOTH ("BOTH");
+public enum LinkSetType {
+
+	XGMML_FILE
 	
-	private final String direction;
-	
-	private Direction(String s) {
-		direction = s;
-	}
-	
-	public boolean equalsName(String otherName) {
-		return (otherName == null) ? false:direction.equals(otherName);
-	}
-	
-	public String toString() {
-		return direction;
-	}
 }

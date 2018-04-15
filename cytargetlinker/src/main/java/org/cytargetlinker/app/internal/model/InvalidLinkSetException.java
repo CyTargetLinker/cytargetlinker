@@ -15,33 +15,24 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-package org.cytargetlinker.app.internal.data;
+package org.cytargetlinker.app.internal.model;
 
-/**
- * 
- * @author mkutmon
- * Indicates the direction of the extension of the network
- *
- */
-public enum Direction {
-	// add only regulators = SOURCE
-	SOURCES ("SOURCES"),
-	// add only targets = TARGET
-	TARGETS ("TARGETS"),
-	// add both = BOTH
-	BOTH ("BOTH");
-	
-	private final String direction;
-	
-	private Direction(String s) {
-		direction = s;
+import org.cytargetlinker.app.internal.data.LinkSet;
+
+public class InvalidLinkSetException extends Exception {
+	private LinkSet linkSet;
+	private String message;
+
+	public InvalidLinkSetException(LinkSet linkSet, String message) {
+		this.linkSet = linkSet;
+		this.message = message;
+	}
+
+	public LinkSet getLinkSet() {
+		return linkSet;
 	}
 	
-	public boolean equalsName(String otherName) {
-		return (otherName == null) ? false:direction.equals(otherName);
-	}
-	
-	public String toString() {
-		return direction;
+	public String getMessage() {
+		return message;
 	}
 }

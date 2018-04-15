@@ -1,7 +1,7 @@
 // CyTargetLinker,
-// a Cytoscape plugin to extend biological networks with regulatory interaction
+// a Cytoscape plugin to extend biological networks with regulatory interactions and other relationships
 //
-// Copyright 2011-2013 Department of Bioinformatics - BiGCaT, Maastricht University
+// Copyright 2011-2018 Department of Bioinformatics - BiGCaT, Maastricht University
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -29,7 +29,7 @@ package org.cytargetlinker.app.internal.data;
  */
 public enum NodeType {
 	INITIAL,
-	REGULATOR,
+	SOURCE,
 	TARGET,
 	BOTH
 }
