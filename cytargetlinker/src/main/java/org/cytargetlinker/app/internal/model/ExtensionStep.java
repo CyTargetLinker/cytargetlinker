@@ -145,7 +145,7 @@ public class ExtensionStep {
 				
 				if(!present) {
 					// create edge
-					CyEdge cyEdge = network.addEdge(e.getCySource(), e.getCyTarget(), false);
+					CyEdge cyEdge = network.addEdge(e.getCySource(), e.getCyTarget(), true);
 					e.setCyEdge(cyEdge);
 					r.getAddedEdges().add(e);
 					
