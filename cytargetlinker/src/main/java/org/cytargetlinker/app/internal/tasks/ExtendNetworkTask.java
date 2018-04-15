@@ -27,6 +27,7 @@ import java.util.Set;
 
 import org.cytargetlinker.app.internal.CTLManager;
 import org.cytargetlinker.app.internal.data.Direction;
+import org.cytargetlinker.app.internal.data.Result;
 import org.cytargetlinker.app.internal.model.ExtensionManager;
 import org.cytargetlinker.app.internal.model.ExtensionStep;
 import org.cytargetlinker.app.internal.model.LinkSetManager;
@@ -35,13 +36,14 @@ import org.cytoscape.model.CyNetwork;
 import org.cytoscape.model.CyNode;
 import org.cytoscape.view.model.CyNetworkView;
 import org.cytoscape.work.AbstractTask;
+import org.cytoscape.work.ObservableTask;
 import org.cytoscape.work.TaskIterator;
 import org.cytoscape.work.TaskMonitor;
 import org.cytoscape.work.Tunable;
 import org.cytoscape.work.swing.DialogTaskManager;
 import org.cytoscape.work.util.ListSingleSelection;
 
-public class ExtendNetworkTask extends AbstractTask {
+public class ExtendNetworkTask extends AbstractTask implements ObservableTask {
 
 	private final CTLManager manager;
 	
@@ -60,6 +62,8 @@ public class ExtendNetworkTask extends AbstractTask {
 	
 	@Tunable (description="Direction of extension (source | target | both). default = both", context=Tunable.NOGUI_CONTEXT)
 	public ListSingleSelection<String> direction;
+	
+	private ExtensionStep step;
 	
 	// is task started from CTL extension dialog?
 	private boolean gui = false;
@@ -205,7 +209,7 @@ public class ExtendNetworkTask extends AbstractTask {
 		ExtensionManager exMgr = manager.getExtensionManager(network2Extend);
 		LinkSetManager lsManager = new LinkSetManager();
 		lsManager.loadLinkSets(lsFiles);
-		ExtensionStep step = exMgr.extendNetwork(nodeIds, lsManager.getLinkSets(), Direction.valueOf(direction.getSelectedValue()), idAttribute);
+		step = exMgr.extendNetwork(nodeIds, lsManager.getLinkSets(), Direction.valueOf(direction.getSelectedValue()), idAttribute);
 		monitor.setStatusMessage("Visualizing result network");
 		monitor.setProgress(0.7);
 		step.execute();
@@ -237,5 +241,23 @@ public class ExtendNetworkTask extends AbstractTask {
 			}
 		}
 		return ids;
+	}
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@Override
+	public Object getResults(Class type) {
+		if (type == String.class) {
+			String res = "";
+			res = "Extension step: " + step.getStepNum() + "\n";
+			
+			for(Result r : step.getResults()) {
+				res = res + "Linkset: " + r.getLinkSetName() + "\n";
+				res = res + "Added edges: " + r.getAddedEdges().size() + "\n";
+				res = res + "Added nodes: " + r.getAddedNodes().size() + "\n";
+			}
+
+			return res;
+		}
+		return "";
 	}
 }
