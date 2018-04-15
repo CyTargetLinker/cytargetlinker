@@ -196,7 +196,8 @@ public class ExtendNetworkTask extends AbstractTask {
 		    network2Extend.getRow(network2Extend).set(CyNetwork.NAME, "CTL_" + network.getRow(network).get(CyNetwork.NAME, String.class));
 		    if(network2Extend.getRow(network2Extend).getTable().getColumn("CTL.Net") == null) {
 		    	network2Extend.getRow(network2Extend).getTable().createColumn("CTL.Net", Boolean.class, true);
-		    }
+		    } 
+		    network2Extend.getRow(network2Extend).set("CTL.Net", true);
 		}
 				
 		Set<String> nodeIds = getNetworkNodeIds(network.getNodeList());

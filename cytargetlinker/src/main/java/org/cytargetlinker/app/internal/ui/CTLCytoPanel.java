@@ -172,7 +172,6 @@ public class CTLCytoPanel extends JPanel implements CytoPanelComponent2, Network
 			@Override
 			public void stateChanged(ChangeEvent arg0) {
 				Integer i = (Integer) thresholdSpinner.getValue();
-				mgr.setThreshold(i);
 				FilterOverlapTaskFactory fact = new FilterOverlapTaskFactory(manager);
 				TaskIterator it = fact.createTaskIterator(mgr.getNetwork(), i);
 				manager.getService(DialogTaskManager.class).execute(it);

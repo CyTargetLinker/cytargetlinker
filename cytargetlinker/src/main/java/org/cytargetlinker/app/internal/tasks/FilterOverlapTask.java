@@ -61,7 +61,7 @@ public class FilterOverlapTask extends AbstractTask {
 		ExtensionManager exMgr = manager.getExtensionManager(network);
 		
 		CyNetworkView view = manager.getNetworkView(network);
-		Integer threshold = exMgr.getThreshold();
+		exMgr.setThreshold(overlap);
 		
 		for(LinkSet ds : exMgr.getLinkSets()) {
 			ds.getHiddenEdges().clear();
@@ -94,7 +94,7 @@ public class FilterOverlapTask extends AbstractTask {
 						}
 					}
 				}
-				if(count >= threshold) {
+				if(count >= overlap) {
 					hide = false;
 				} else {
 					for(CyEdge edge : edges) {
