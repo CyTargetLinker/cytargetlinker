@@ -46,7 +46,7 @@ public class Edge {
 	// resulting CyEdge object
 	private CyEdge cyEdge;
 	
-	// Edge was provided by a specific RegIN
+	// Edge was provided by a specific Link set
 	private LinkSet ds;
 	
 	

@@ -152,7 +152,7 @@ public class ExtensionDialog extends JDialog {
         dirField = new JTextField();
         if(!CyTargetLinkerProperty.CTL_LINKSET_DIR.equals("")) {
         	dirField.setText(CyTargetLinkerProperty.CTL_LINKSET_DIR);
-        	getRegINFiles();
+        	getLinkSetFiles();
         }
         	
         dirField.setEditable(false);
@@ -164,13 +164,13 @@ public class ExtensionDialog extends JDialog {
         	@Override
         	public void actionPerformed(ActionEvent e) {
         		JFileChooser chooser = new JFileChooser();
-        		chooser.setDialogTitle("Select directory containing RegINs");
+        		chooser.setDialogTitle("Select directory containing Link Sets");
         		chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         		if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
         			File dir = chooser.getSelectedFile();
         			dirField.setText(dir.getAbsolutePath());
         			CyTargetLinkerProperty.updateProperty(dir.getAbsolutePath());
-        			getRegINFiles();
+        			getLinkSetFiles();
         		}
         	}
         });
@@ -179,7 +179,7 @@ public class ExtensionDialog extends JDialog {
         return builder.getPanel();
 	}
 	
-	private void getRegINFiles() {
+	private void getLinkSetFiles() {
         linkSets = new HashMap<String, File>();
         File file = new File(dirField.getText());
         if (file != null){

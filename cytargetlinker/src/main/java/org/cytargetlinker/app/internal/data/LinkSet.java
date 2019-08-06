@@ -27,7 +27,7 @@ import org.cytoscape.model.CyEdge;
 /**
  * 
  * @author mkutmon
- * Contains information about the different data sources (RegINs)
+ * Contains information about the different data sources (LinkSets)
  * Datasource is valid within one extended network (over multiple steps)
  *
  */
@@ -42,7 +42,7 @@ public class LinkSet implements Comparable<LinkSet> {
 	// show/hide functionality of cytargetlinker
 	private boolean show = true;
 	
-	// which edges have been added by this RegIN
+	// which edges have been added by this LinkSet
 	private Set<CyEdge> edges;
 	// which edges are currently hidden
 	private Set<CyEdge> hiddenEdges;

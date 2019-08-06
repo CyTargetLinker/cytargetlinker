@@ -136,7 +136,7 @@ public class ExtendNetworkTask extends AbstractTask implements ObservableTask {
 		}
 		
 		monitor.setTitle("CyTargetLinker Extension");
-		monitor.setStatusMessage("Extract regulatory interactions from RegINS (this might take a while ...)");
+		monitor.setStatusMessage("Extract regulatory interactions from LinkSets (this might take a while ...)");
 		monitor.setProgress(0.1);
 		
 		if(linkSetFiles != null) {
@@ -170,7 +170,7 @@ public class ExtendNetworkTask extends AbstractTask implements ObservableTask {
 		}
 		
 		monitor.setTitle("CyTargetLinker Extension");
-		monitor.setStatusMessage("Extract regulatory interactions from RegINS (this might take a while ...)");
+		monitor.setStatusMessage("Extract regulatory interactions from LinkSets (this might take a while ...)");
 		monitor.setProgress(0.1);
 		
 		monitor.showMessage(TaskMonitor.Level.INFO, lsFiles.size() + " LinkSet files selected.");
