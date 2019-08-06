@@ -29,14 +29,14 @@ import org.cytoscape.session.CySessionManager;
 /**
  * 
  * @author mkutmon
- * saves the RegIN directory which is used in the ExtensionDialog
+ * saves the LinkSet directory which is used in the ExtensionDialog
  * TODO: saving works within one session but not after restarting Cytoscape!
  *
  */
 public class CyTargetLinkerProperty {
 
-	public static String CTL_RegIN_DIRECTORY = "";
-	public static String CTL_RegIN_DIRECTOY_PROP = "CTL.rin.directory";
+	public static String CTL_LINKSET_DIR = "";
+	public static String CTL_LINKSET_DIR_PROP = "CTL.rin.directory";
 	public static Properties CTL_PROP = new Properties();
 	
 	private CyProperty<Properties> ctlProperty;
@@ -54,7 +54,7 @@ public class CyTargetLinkerProperty {
 			if(props != null) {
 				for (CyProperty<?> prop : props) {
 				    if (prop.getName() != null){
-				    	if (prop.getName().equals(CTL_RegIN_DIRECTOY_PROP)) {
+				    	if (prop.getName().equals(CTL_LINKSET_DIR_PROP)) {
 				    		ctlProperty = (CyProperty<Properties>) prop;
 				    		flag = true;
 				    		break;
@@ -66,18 +66,18 @@ public class CyTargetLinkerProperty {
 
 		if (!flag) {
 			// if property does not exists yet = create new property
-			CTL_PROP.setProperty(CTL_RegIN_DIRECTOY_PROP, CTL_RegIN_DIRECTORY);
+			CTL_PROP.setProperty(CTL_LINKSET_DIR_PROP, CTL_LINKSET_DIR);
 			ctlProperty = new SimpleCyProperty("CyTargetLinker", CTL_PROP, String.class, CyProperty.SavePolicy.CONFIG_DIR);
 		} else {
 			// if property does exist - retrieve directory value
 			CTL_PROP = ctlProperty.getProperties();
-			CTL_RegIN_DIRECTOY_PROP = (String)CTL_PROP.get(CTL_RegIN_DIRECTOY_PROP);
+			CTL_LINKSET_DIR_PROP = (String)CTL_PROP.get(CTL_LINKSET_DIR_PROP);
 		}
 		return ctlProperty;
 	}
 	
 	public static void updateProperty(String directory) {
-		CTL_RegIN_DIRECTOY_PROP = directory;
-		CTL_PROP.setProperty(CTL_RegIN_DIRECTOY_PROP, CTL_RegIN_DIRECTORY);
+		CTL_LINKSET_DIR_PROP = directory;
+		CTL_PROP.setProperty(CTL_LINKSET_DIR_PROP, CTL_LINKSET_DIR);
 	}
 }

@@ -59,8 +59,8 @@ public class ExtensionManager {
 	/**
 	 * function that retrieves the regulatory interactions
 	 * @param ids - list of input ids
-	 * @param ds - list of different datasources (RegINs)
-	 * @param dir - directory that contains the RegINs
+	 * @param ds - list of different datasources (LinkSets)
+	 * @param dir - directory that contains the LinkSets
 	 * @param idAttribute - node table column containing the matching identifier
 	 * @return ExtensionStep contains all added interactions for this step
 	 */
@@ -96,8 +96,8 @@ public class ExtensionManager {
 	}
 	
 	/**
-	 * a datasource is a RegIN that contain regulatory interactions
-	 * @param name = name of the RegIN (e.g. ENCODE)
+	 * a datasource is a LinkSet that contain regulatory interactions
+	 * @param name = name of the LinkSet (e.g. ENCODE)
 	 * @return DataSource object or null if datasource does not exist yet
 	 */
 	public LinkSet getLinkSetByName(String name) {
@@ -126,11 +126,11 @@ public class ExtensionManager {
 	}
 	
 	/**
-	 * currently only XgmmlFileRegINHandler available
+	 * currently only XgmmlFileLinkSetHandler available
 	 */
 	private ExtensionHandler getHandler(LinkSet linkSet) {
-		if(linkSet.getType().equals(XgmmlFileRegINHandler.getLinkSetType())) {
-			return new XgmmlFileRegINHandler();
+		if(linkSet.getType().equals(XgmmlFileLinkSetHandler.getLinkSetType())) {
+			return new XgmmlFileLinkSetHandler();
 		}
 		return null;
 	}

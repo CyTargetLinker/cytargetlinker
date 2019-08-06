@@ -38,7 +38,7 @@ import org.cytoscape.model.CyNode;
  */
 public class ExtensionStep {
 
-	// result list of edges for each RegIN (datasource)
+	// result list of edges for each LinkSet (datasource)
 	private List<Result> results;
 	
 	// which extension step level is it
@@ -185,10 +185,16 @@ public class ExtensionStep {
 		network.getRow(cyNode).set(idAttribute, node.getId());
 
 		addAttributes(node, cyNode);
-		if(!node.getAttributes().containsKey("name")) {
-			if(node.getAttributes().containsKey("label")) {
-				network.getRow(cyNode).set("name", node.getAttributes().get("label"));
-			}
+		if(node.getAttributes().containsKey("label")) {
+			network.getRow(cyNode).set("name", node.getAttributes().get("label"));
+			if(network.getRow(cyNode).getTable().getColumn("display name") != null) {
+				network.getRow(cyNode).set("display name", node.getAttributes().get("label"));
+			}			
+		} else {
+			network.getRow(cyNode).set("name", node.getId());
+			if(network.getRow(cyNode).getTable().getColumn("display name") != null) {
+				network.getRow(cyNode).set("display name", node.getId());
+			}	
 		}
 		
 		network.getRow(cyNode).set("CTL.Ext", "step " + stepNum);

@@ -34,7 +34,7 @@ import com.jgoodies.forms.layout.FormLayout;
 /**
  * 
  * @author mkutmon
- * dialog to choose which RegINs should be used
+ * dialog to choose which LinkSets should be used
  *
  */
 public class LinksetSelectionDlg extends JDialog {

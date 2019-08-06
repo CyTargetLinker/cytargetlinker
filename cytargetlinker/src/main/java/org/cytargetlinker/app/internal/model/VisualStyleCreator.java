@@ -80,7 +80,7 @@ public class VisualStyleCreator {
 		return mapping;
 	}
 	
-	// TODO: change mapping based on interaction and make sure interaction is not empty in the RegINs!
+	// TODO: change mapping based on interaction and make sure interaction is not empty in the LinkSets!
 	private DiscreteMapping<String, Paint> getEdgeColor() {
 		Class<String> dataType = String.class;
 		DiscreteMapping<String, Paint> edgeColorMapper = (DiscreteMapping<String, Paint>) manager.getVisualMappingFunctionFactoryDiscrete().createVisualMappingFunction("CTL.LinkSet", dataType, BasicVisualLexicon.EDGE_STROKE_UNSELECTED_PAINT);		
@@ -92,7 +92,7 @@ public class VisualStyleCreator {
 	    return edgeColorMapper;
 	}
 
-	// TODO: change mapping based on interaction and make sure interaction is not empty in the RegINs!
+	// TODO: change mapping based on interaction and make sure interaction is not empty in the LinkSets!
 	private DiscreteMapping<String, ArrowShape> getArrowShape() {
 		Class<String> dataType = String.class;
 		DiscreteMapping<String, ArrowShape> arrowShapeMapper = (DiscreteMapping<String, ArrowShape>) manager.getVisualMappingFunctionFactoryDiscrete().createVisualMappingFunction("CTL.LinkSet", dataType, BasicVisualLexicon.EDGE_TARGET_ARROW_SHAPE);

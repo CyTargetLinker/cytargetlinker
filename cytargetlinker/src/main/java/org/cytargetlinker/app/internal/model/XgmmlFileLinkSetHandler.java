@@ -31,7 +31,7 @@ import org.cytargetlinker.app.internal.io.XgmmlParser;
  * extension handler for XGMML files
  *
  */
-public class XgmmlFileRegINHandler implements ExtensionHandler {
+public class XgmmlFileLinkSetHandler implements ExtensionHandler {
 
 	@Override
 	public Result getNeighbours(Set<String> nodeIds, Direction direction, LinkSet linkSet) throws InvalidLinkSetException {

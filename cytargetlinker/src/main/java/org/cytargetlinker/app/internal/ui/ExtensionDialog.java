@@ -49,7 +49,7 @@ public class ExtensionDialog extends JDialog {
 	private JComboBox<String> cbNet;
 	private JComboBox<String> idAttribute;
 	private JTextField dirField;
-	private Map<String, File> regINs;
+	private Map<String, File> linkSets;
 	private JComboBox<Direction> cbDirection;
 	
 	public ExtensionDialog(CTLManager manager) {
@@ -87,7 +87,7 @@ public class ExtensionDialog extends JDialog {
         JButton button2 = new JButton("Ok");
         button2.addActionListener(new ActionListener(){
         	public void  actionPerformed(ActionEvent e) {
-        		if(regINs.isEmpty()) {
+        		if(linkSets.isEmpty()) {
         			JOptionPane.showMessageDialog(manager.getApplicationFrame(), "No xgmml file in this Directory.", "Warning", JOptionPane.WARNING_MESSAGE);
         		} else {
         			String netName = (String) cbNet.getSelectedItem();
@@ -146,12 +146,12 @@ public class ExtensionDialog extends JDialog {
 		FormLayout layout = new FormLayout("right:max(72dlu;p), 10dlu, 75dlu, 5dlu, p, 10dlu", "5dlu, p, 10dlu");
         PanelBuilder builder = new PanelBuilder(layout);
         builder.setDefaultDialogBorder();
-        builder.setBorder(new TitledBorder("Directory containg RegINs"));
-        builder.addLabel("Select RegINs", cc.xy(1, 2));
+        builder.setBorder(new TitledBorder("Directory containg Link Sets"));
+        builder.addLabel("Select Link Sets", cc.xy(1, 2));
 
         dirField = new JTextField();
-        if(!CyTargetLinkerProperty.CTL_RegIN_DIRECTORY.equals("")) {
-        	dirField.setText(CyTargetLinkerProperty.CTL_RegIN_DIRECTORY);
+        if(!CyTargetLinkerProperty.CTL_LINKSET_DIR.equals("")) {
+        	dirField.setText(CyTargetLinkerProperty.CTL_LINKSET_DIR);
         	getRegINFiles();
         }
         	
@@ -180,14 +180,14 @@ public class ExtensionDialog extends JDialog {
 	}
 	
 	private void getRegINFiles() {
-        regINs = new HashMap<String, File>();
+        linkSets = new HashMap<String, File>();
         File file = new File(dirField.getText());
         if (file != null){
         	File[] files = file.listFiles();
                 
         	for (int i = 0; i < files.length; i++) {
         		if (files[i].isFile() && files[i].getName().contains(".xgmml")) {
-        			regINs.put(files[i].getAbsolutePath(), files[i]);
+        			linkSets.put(files[i].getAbsolutePath(), files[i]);
         		}
         	}
         }
